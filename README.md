@@ -68,6 +68,38 @@ $docker->containers()->start($created->id);
 
 Serialization preserves the distinction between an absent field and explicit `null`, `false`, `0`, an empty array, or an empty string. Generated DTOs remain version-specific rather than being flattened into a universal model.
 
+## Command-line interface
+
+The package ships a `docker-engine` binary (requires `symfony/console`, already a runtime dependency). After `composer require misaf/docker-engine-php` it is installed into your project's `vendor/bin`.
+
+```bash
+vendor/bin/docker-engine ping
+vendor/bin/docker-engine ps -a
+vendor/bin/docker-engine images
+vendor/bin/docker-engine version
+vendor/bin/docker-engine info
+```
+
+Every command accepts connection options:
+
+| Option | Description | Default |
+| --- | --- | --- |
+| `--host` | Engine host (`unix://`, `tcp://`, `http://`, `https://`). | `unix:///var/run/docker.sock` |
+| `--api-version` | Pin the Engine API version, e.g. `1.55`. | negotiate |
+| `--tls-ca` | Path to the TLS CA certificate file. | _none_ |
+| `--tls-cert` | Path to the TLS client certificate file. | _none_ |
+| `--tls-key` | Path to the TLS client private key file. | _none_ |
+| `--tls-verify-peer` / `--no-tls-verify-peer` | Verify the peer certificate. | enabled |
+| `--tls-verify-host` / `--no-tls-verify-host` | Verify the peer host name. | enabled |
+
+`ps` and `images` also accept `-a`/`--all` and `--format=json` (default `table`):
+
+```bash
+vendor/bin/docker-engine ps -a --format=json
+```
+
+The CLI is built on the same `DockerClient` and `raw()` API used in the library, so it works against any negotiated Engine version without invoking the Docker CLI.
+
 ## Streaming and exec
 
 Streaming responses are lazy. The SDK owns Docker-specific multiplex framing, TTY raw streams, JSON-line progress, WebSocket upgrade handling, and socket hijacking.
@@ -100,7 +132,7 @@ $payload = $response->json();
 
 The public API depends on the package's `Transport` contract. `SymfonyTransport` is the default implementation and uses standalone Symfony HttpClient. Symfony Serializer handles typed hydration through a Docker-aware normalizer, and OptionsResolver validates array-shaped configuration before it becomes typed options. No Symfony Framework bundle, kernel, dependency-injection container, or runtime is used.
 
-Symfony Console, YAML, Finder, and Filesystem are development-only dependencies used by the committed OpenAPI generator:
+Symfony YAML, Finder, and Filesystem are development-only dependencies used by the committed OpenAPI generator. Symfony Console is a runtime dependency that powers the `docker-engine` CLI:
 
 ```bash
 php tools/docker-api docker-api:generate --all
