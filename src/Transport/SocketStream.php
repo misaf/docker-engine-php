@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Transport;
 
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\CancellableStream;
+use Misaf\DockerEngine\Contracts\HalfClosableStream;
 use Misaf\DockerEngine\Exceptions\TransportException;
 
-final class SocketStream implements Stream
+final class SocketStream implements CancellableStream, HalfClosableStream
 {
     /** @param resource $socket */
     public function __construct(private $socket) {}
@@ -44,5 +45,17 @@ final class SocketStream implements Stream
         if (is_resource($this->socket)) {
             fclose($this->socket);
         }
+    }
+
+    public function closeWrite(): void
+    {
+        if (is_resource($this->socket) && ! stream_socket_shutdown($this->socket, STREAM_SHUT_WR)) {
+            throw TransportException::connection('docker stream', 'socket half-close failed');
+        }
+    }
+
+    public function cancel(): void
+    {
+        $this->close();
     }
 }

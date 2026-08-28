@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Transport;
 
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\CancellableStream;
 use Misaf\DockerEngine\Exceptions\TimeoutException;
 use Misaf\DockerEngine\Exceptions\TransportException;
 use Symfony\Contracts\HttpClient\Exception\TimeoutExceptionInterface;
@@ -12,7 +12,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-final class SymfonyResponseStream implements Stream
+final class SymfonyResponseStream implements CancellableStream
 {
     private string $buffer = '';
 
@@ -83,5 +83,10 @@ final class SymfonyResponseStream implements Stream
         $this->finished = true;
         $this->buffer = '';
         $this->response->cancel();
+    }
+
+    public function cancel(): void
+    {
+        $this->close();
     }
 }

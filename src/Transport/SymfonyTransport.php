@@ -64,7 +64,10 @@ final readonly class SymfonyTransport implements Transport
             $response = $this->client->request($this->method($request), $this->url($request), $this->requestOptions($request, true));
             $status = $response->getStatusCode();
             $headers = $response->getHeaders(false);
-            $chunks = $this->client->stream($response, $request->streamIdleTimeout ?? $this->options->timeouts->streamIdle);
+            $streamIdleTimeout = $request->streamIdleTimeout
+                ?? $this->options->timeouts->streamIdle
+                ?? $this->options->timeouts->request;
+            $chunks = $this->client->stream($response, $streamIdleTimeout);
 
             return new StreamResponse(
                 $status,
@@ -83,14 +86,16 @@ final readonly class SymfonyTransport implements Transport
     {
         $headers = [...$this->options->headers, ...$request->headers];
         $requestTimeout = $request->timeout ?? $this->options->timeouts->request;
-        $streamIdleTimeout = $request->streamIdleTimeout ?? $this->options->timeouts->streamIdle;
+        $streamIdleTimeout = $request->streamIdleTimeout
+            ?? $this->options->timeouts->streamIdle
+            ?? $requestTimeout;
         $options = [
             'headers'              => $headers,
             'http_version'         => '1.1',
             'max_redirects'        => 0,
             'max_connect_duration' => $this->options->timeouts->connect,
             'max_duration'         => $stream ? 0.0 : $requestTimeout,
-            'timeout'              => $stream ? ($streamIdleTimeout ?? 0.0) : $requestTimeout,
+            'timeout'              => $stream ? $streamIdleTimeout : $requestTimeout,
             'buffer'               => ! $stream,
         ];
 

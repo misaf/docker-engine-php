@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Exec;
 
+use Misaf\DockerEngine\Contracts\CancellableStream;
+use Misaf\DockerEngine\Contracts\HalfClosableStream;
 use Misaf\DockerEngine\Contracts\Stream;
 use Misaf\DockerEngine\Streaming\MultiplexedStream;
 use Misaf\DockerEngine\Streaming\RawStream;
@@ -37,6 +39,24 @@ final readonly class ExecSession
 
     public function close(): void
     {
+        $this->stream->close();
+    }
+
+    public function closeStdin(): void
+    {
+        if ($this->stream instanceof HalfClosableStream) {
+            $this->stream->closeWrite();
+        }
+    }
+
+    public function cancel(): void
+    {
+        if ($this->stream instanceof CancellableStream) {
+            $this->stream->cancel();
+
+            return;
+        }
+
         $this->stream->close();
     }
 }

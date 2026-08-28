@@ -58,7 +58,12 @@ it('maps HTTPS client certificates without exposing Symfony option arrays', func
 });
 
 it('streams ordinary responses without buffering the complete body', function (): void {
-    $client = new MockHttpClient(new MockResponse(['first', 'second'], ['http_code' => 200]));
+    $client = new MockHttpClient(function (string $method, string $url, array $options): MockResponse {
+        expect($options['timeout'])->toBe(60.0)
+            ->and($options['max_duration'])->toBe(0.0);
+
+        return new MockResponse(['first', 'second'], ['http_code' => 200]);
+    });
     $response = (new SymfonyTransport(new ClientOptions(), new SymfonySerializer(), $client))->stream(new Request('GET', '/events'));
     $body = '';
 
