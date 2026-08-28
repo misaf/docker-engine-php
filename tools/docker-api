@@ -1,0 +1,37 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Misaf\DockerEngine\Tools\Console\CoverageCommand;
+use Misaf\DockerEngine\Tools\Console\DeterminismCommand;
+use Misaf\DockerEngine\Tools\Console\GenerateCommand;
+use Misaf\DockerEngine\Tools\Console\ValidateCommand;
+use Misaf\DockerEngine\Tools\Generator\DockerApiGenerator;
+use Misaf\DockerEngine\Tools\Generator\GeneratorDeterminismChecker;
+use Misaf\DockerEngine\Tools\OpenApi\ApiCoverageValidator;
+use Misaf\DockerEngine\Tools\OpenApi\OpenApiSpecRepository;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Filesystem\Filesystem;
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$root = dirname(__DIR__);
+$specs = new OpenApiSpecRepository($root . '/tools/specs');
+$filesystem = new Filesystem();
+$generator = new DockerApiGenerator($filesystem);
+$apiDirectory = $root . '/src/Api';
+$clientFile = $root . '/src/DockerClient.php';
+$application = new Application('Docker API developer tools');
+$application->addCommands([
+    new GenerateCommand($specs, $generator, $apiDirectory, $clientFile),
+    new CoverageCommand(new ApiCoverageValidator($specs, $apiDirectory)),
+    new ValidateCommand($specs),
+    new DeterminismCommand(new GeneratorDeterminismChecker(
+        $specs,
+        $generator,
+        $filesystem,
+    )),
+]);
+
+exit($application->run());
