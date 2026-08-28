@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: ["1.x"]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+      - uses: ramsey/composer-install@v3
+      - run: composer verify
+
+  docker-integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["8.4", "8.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - uses: ramsey/composer-install@v3
+      - run: docker info
+      - run: composer test -- --group=docker-integration
+        env:
+          DOCKER_SDK_INTEGRATION: "1"
+
+  podman-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+      - uses: ramsey/composer-install@v3
+      - run: sudo apt-get update && sudo apt-get install -y podman
+      - run: |
+          podman system service --time=0 unix:///tmp/podman-docker-sdk.sock &
+          for attempt in {1..30}; do
+            curl --fail --silent --unix-socket /tmp/podman-docker-sdk.sock http://localhost/_ping && exit 0
+            sleep 1
+          done
+          exit 1
+      - run: composer test -- --group=docker-integration
+        env:
+          DOCKER_HOST: unix:///tmp/podman-docker-sdk.sock
+          DOCKER_SDK_INTEGRATION: "1"
