@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_51\Service;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 final class ServiceApi extends GeneratedApi
@@ -18,7 +19,7 @@ final class ServiceApi extends GeneratedApi
             method: 'POST',
             path: '/services/create',
             responseClass: Responses\ServiceCreateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -41,7 +42,7 @@ final class ServiceApi extends GeneratedApi
             method: 'DELETE',
             path: '/services/{id}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -58,7 +59,7 @@ final class ServiceApi extends GeneratedApi
             method: 'GET',
             path: '/services/{id}',
             responseClass: Responses\ServiceInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -77,7 +78,7 @@ final class ServiceApi extends GeneratedApi
             method: 'GET',
             path: '/services',
             responseClass: Responses\ServiceListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -100,7 +101,7 @@ final class ServiceApi extends GeneratedApi
             method: 'GET',
             path: '/services/{id}/logs',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -119,7 +120,7 @@ final class ServiceApi extends GeneratedApi
             method: 'POST',
             path: '/services/{id}/update',
             responseClass: Responses\ServiceUpdateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);

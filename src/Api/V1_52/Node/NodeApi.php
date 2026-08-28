@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_52\Node;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 
 final class NodeApi extends GeneratedApi
 {
@@ -21,7 +22,7 @@ final class NodeApi extends GeneratedApi
             method: 'DELETE',
             path: '/nodes/{id}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -38,7 +39,7 @@ final class NodeApi extends GeneratedApi
             method: 'GET',
             path: '/nodes/{id}',
             responseClass: Responses\NodeInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -57,7 +58,7 @@ final class NodeApi extends GeneratedApi
             method: 'GET',
             path: '/nodes',
             responseClass: Responses\NodeListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -76,7 +77,7 @@ final class NodeApi extends GeneratedApi
             method: 'POST',
             path: '/nodes/{id}/update',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);

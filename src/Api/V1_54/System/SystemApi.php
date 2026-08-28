@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_54\System;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 final class SystemApi extends GeneratedApi
@@ -18,7 +19,7 @@ final class SystemApi extends GeneratedApi
             method: 'POST',
             path: '/auth',
             responseClass: Responses\SystemAuthResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -37,7 +38,7 @@ final class SystemApi extends GeneratedApi
             method: 'GET',
             path: '/system/df',
             responseClass: Responses\SystemDataUsageResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -56,7 +57,7 @@ final class SystemApi extends GeneratedApi
             method: 'GET',
             path: '/events',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -75,7 +76,7 @@ final class SystemApi extends GeneratedApi
             method: 'GET',
             path: '/info',
             responseClass: Responses\SystemInfoResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ));
@@ -94,7 +95,7 @@ final class SystemApi extends GeneratedApi
             method: 'GET',
             path: '/_ping',
             responseClass: null,
-            responseKind: 'raw',
+            responseKind: ResponseKind::Raw,
             deprecated: false,
             upgrade: null,
         ));
@@ -113,7 +114,7 @@ final class SystemApi extends GeneratedApi
             method: 'HEAD',
             path: '/_ping',
             responseClass: null,
-            responseKind: 'raw',
+            responseKind: ResponseKind::Raw,
             deprecated: false,
             upgrade: null,
         ));
@@ -132,7 +133,7 @@ final class SystemApi extends GeneratedApi
             method: 'GET',
             path: '/version',
             responseClass: Responses\SystemVersionResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ));

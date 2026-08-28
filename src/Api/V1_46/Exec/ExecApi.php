@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Api\V1_46\Exec;
 
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
+use Misaf\DockerEngine\Generated\ConnectionUpgrade;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedExecApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 final class ExecApi extends GeneratedExecApi
@@ -18,7 +20,7 @@ final class ExecApi extends GeneratedExecApi
             method: 'POST',
             path: '/containers/{id}/exec',
             responseClass: Responses\ContainerExecResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -41,7 +43,7 @@ final class ExecApi extends GeneratedExecApi
             method: 'GET',
             path: '/exec/{id}/json',
             responseClass: Responses\ExecInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -60,7 +62,7 @@ final class ExecApi extends GeneratedExecApi
             method: 'POST',
             path: '/exec/{id}/resize',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -77,9 +79,9 @@ final class ExecApi extends GeneratedExecApi
             method: 'POST',
             path: '/exec/{id}/start',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
-            upgrade: 'tcp',
+            upgrade: ConnectionUpgrade::Tcp,
         ), $request);
 
         if ( ! $result instanceof StreamResponse) {

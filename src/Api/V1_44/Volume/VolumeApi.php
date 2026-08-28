@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_44\Volume;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 
 final class VolumeApi extends GeneratedApi
 {
@@ -17,7 +18,7 @@ final class VolumeApi extends GeneratedApi
             method: 'POST',
             path: '/volumes/create',
             responseClass: Responses\VolumeCreateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -40,7 +41,7 @@ final class VolumeApi extends GeneratedApi
             method: 'DELETE',
             path: '/volumes/{name}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -57,7 +58,7 @@ final class VolumeApi extends GeneratedApi
             method: 'GET',
             path: '/volumes/{name}',
             responseClass: Responses\VolumeInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -76,7 +77,7 @@ final class VolumeApi extends GeneratedApi
             method: 'GET',
             path: '/volumes',
             responseClass: Responses\VolumeListResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -95,7 +96,7 @@ final class VolumeApi extends GeneratedApi
             method: 'POST',
             path: '/volumes/prune',
             responseClass: Responses\VolumePruneResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -114,7 +115,7 @@ final class VolumeApi extends GeneratedApi
             method: 'PUT',
             path: '/volumes/{name}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);

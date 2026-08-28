@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_50\Image;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedImageApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Streaming\ProgressStream;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
@@ -19,7 +20,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/build/prune',
             responseClass: Responses\BuildPruneResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -38,7 +39,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/build',
             responseClass: null,
-            responseKind: 'progress',
+            responseKind: ResponseKind::Progress,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -57,7 +58,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/commit',
             responseClass: Responses\ImageCommitResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -76,7 +77,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/images/create',
             responseClass: null,
-            responseKind: 'progress',
+            responseKind: ResponseKind::Progress,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -99,7 +100,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'DELETE',
             path: '/images/{name}',
             responseClass: Responses\ImageDeleteResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -122,7 +123,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'GET',
             path: '/images/{name}/get',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -141,7 +142,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'GET',
             path: '/images/get',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -164,7 +165,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'GET',
             path: '/images/{name}/history',
             responseClass: Responses\ImageHistoryResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -187,7 +188,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'GET',
             path: '/images/{name}/json',
             responseClass: Responses\ImageInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -206,7 +207,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'GET',
             path: '/images/json',
             responseClass: Responses\ImageListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -225,7 +226,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/images/load',
             responseClass: null,
-            responseKind: 'progress',
+            responseKind: ResponseKind::Progress,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -244,7 +245,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/images/prune',
             responseClass: Responses\ImagePruneResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -263,7 +264,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/images/{name}/push',
             responseClass: null,
-            responseKind: 'progress',
+            responseKind: ResponseKind::Progress,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -282,7 +283,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'GET',
             path: '/images/search',
             responseClass: Responses\ImageSearchResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -305,7 +306,7 @@ final class ImageApi extends GeneratedImageApi
             method: 'POST',
             path: '/images/{name}/tag',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);

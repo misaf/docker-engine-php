@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_52\Swarm;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 
 final class SwarmApi extends GeneratedApi
 {
@@ -17,7 +18,7 @@ final class SwarmApi extends GeneratedApi
             method: 'POST',
             path: '/swarm/init',
             responseClass: null,
-            responseKind: 'raw',
+            responseKind: ResponseKind::Raw,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -36,7 +37,7 @@ final class SwarmApi extends GeneratedApi
             method: 'GET',
             path: '/swarm',
             responseClass: Responses\SwarmInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ));
@@ -55,7 +56,7 @@ final class SwarmApi extends GeneratedApi
             method: 'POST',
             path: '/swarm/join',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -68,7 +69,7 @@ final class SwarmApi extends GeneratedApi
             method: 'POST',
             path: '/swarm/leave',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -81,7 +82,7 @@ final class SwarmApi extends GeneratedApi
             method: 'POST',
             path: '/swarm/unlock',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -94,7 +95,7 @@ final class SwarmApi extends GeneratedApi
             method: 'GET',
             path: '/swarm/unlockkey',
             responseClass: Responses\SwarmUnlockkeyResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ));
@@ -113,7 +114,7 @@ final class SwarmApi extends GeneratedApi
             method: 'POST',
             path: '/swarm/update',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);

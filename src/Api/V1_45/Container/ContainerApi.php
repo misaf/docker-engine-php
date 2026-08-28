@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Api\V1_45\Container;
 
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
+use Misaf\DockerEngine\Generated\ConnectionUpgrade;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 final class ContainerApi extends GeneratedApi
@@ -18,7 +20,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/archive',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -37,7 +39,7 @@ final class ContainerApi extends GeneratedApi
             method: 'HEAD',
             path: '/containers/{id}/archive',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -54,9 +56,9 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/attach',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
-            upgrade: 'tcp',
+            upgrade: ConnectionUpgrade::Tcp,
         ), $request);
 
         if ( ! $result instanceof StreamResponse) {
@@ -77,9 +79,9 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/attach/ws',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
-            upgrade: 'websocket',
+            upgrade: ConnectionUpgrade::WebSocket,
         ), $request);
 
         if ( ! $result instanceof StreamResponse) {
@@ -100,7 +102,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/changes',
             responseClass: Responses\ContainerChangesResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -119,7 +121,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/create',
             responseClass: Responses\ContainerCreateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -142,7 +144,7 @@ final class ContainerApi extends GeneratedApi
             method: 'DELETE',
             path: '/containers/{id}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -159,7 +161,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/export',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -182,7 +184,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/json',
             responseClass: Responses\ContainerInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -205,7 +207,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/kill',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -218,7 +220,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/json',
             responseClass: Responses\ContainerListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -241,7 +243,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/logs',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -264,7 +266,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/pause',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -277,7 +279,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/prune',
             responseClass: Responses\ContainerPruneResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -296,7 +298,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/rename',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -309,7 +311,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/resize',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -326,7 +328,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/restart',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -343,7 +345,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/start',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -360,7 +362,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/stats',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -383,7 +385,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/stop',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -400,7 +402,7 @@ final class ContainerApi extends GeneratedApi
             method: 'GET',
             path: '/containers/{id}/top',
             responseClass: Responses\ContainerTopResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -423,7 +425,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/unpause',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -436,7 +438,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/update',
             responseClass: Responses\ContainerUpdateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -459,7 +461,7 @@ final class ContainerApi extends GeneratedApi
             method: 'POST',
             path: '/containers/{id}/wait',
             responseClass: Responses\ContainerWaitResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -478,7 +480,7 @@ final class ContainerApi extends GeneratedApi
             method: 'PUT',
             path: '/containers/{id}/archive',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);

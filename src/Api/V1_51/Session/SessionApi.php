@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Api\V1_51\Session;
 
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
+use Misaf\DockerEngine\Generated\ConnectionUpgrade;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 final class SessionApi extends GeneratedApi
@@ -18,9 +20,9 @@ final class SessionApi extends GeneratedApi
             method: 'POST',
             path: '/session',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
-            upgrade: 'tcp',
+            upgrade: ConnectionUpgrade::Tcp,
         ));
 
         if ( ! $result instanceof StreamResponse) {

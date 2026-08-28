@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_43\Config;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 
 final class ConfigApi extends GeneratedApi
 {
@@ -17,7 +18,7 @@ final class ConfigApi extends GeneratedApi
             method: 'POST',
             path: '/configs/create',
             responseClass: Responses\ConfigCreateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -40,7 +41,7 @@ final class ConfigApi extends GeneratedApi
             method: 'DELETE',
             path: '/configs/{id}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -57,7 +58,7 @@ final class ConfigApi extends GeneratedApi
             method: 'GET',
             path: '/configs/{id}',
             responseClass: Responses\ConfigInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -76,7 +77,7 @@ final class ConfigApi extends GeneratedApi
             method: 'GET',
             path: '/configs',
             responseClass: Responses\ConfigListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -95,7 +96,7 @@ final class ConfigApi extends GeneratedApi
             method: 'POST',
             path: '/configs/{id}/update',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);

@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_42\Plugin;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Streaming\ProgressStream;
 
 final class PluginApi extends GeneratedApi
@@ -18,7 +19,7 @@ final class PluginApi extends GeneratedApi
             method: 'GET',
             path: '/plugins/privileges',
             responseClass: Responses\GetPluginPrivilegesResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -37,7 +38,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/create',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -54,7 +55,7 @@ final class PluginApi extends GeneratedApi
             method: 'DELETE',
             path: '/plugins/{name}',
             responseClass: Responses\PluginDeleteResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -77,7 +78,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/{name}/disable',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -94,7 +95,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/{name}/enable',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -111,7 +112,7 @@ final class PluginApi extends GeneratedApi
             method: 'GET',
             path: '/plugins/{name}/json',
             responseClass: Responses\PluginInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -130,7 +131,7 @@ final class PluginApi extends GeneratedApi
             method: 'GET',
             path: '/plugins',
             responseClass: Responses\PluginListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -149,7 +150,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/pull',
             responseClass: null,
-            responseKind: 'progress',
+            responseKind: ResponseKind::Progress,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -172,7 +173,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/{name}/push',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -189,7 +190,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/{name}/set',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -202,7 +203,7 @@ final class PluginApi extends GeneratedApi
             method: 'POST',
             path: '/plugins/{name}/upgrade',
             responseClass: null,
-            responseKind: 'progress',
+            responseKind: ResponseKind::Progress,
             deprecated: false,
             upgrade: null,
         ), $request);

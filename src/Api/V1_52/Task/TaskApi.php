@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_52\Task;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 final class TaskApi extends GeneratedApi
@@ -22,7 +23,7 @@ final class TaskApi extends GeneratedApi
             method: 'GET',
             path: '/tasks/{id}',
             responseClass: Responses\TaskInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -41,7 +42,7 @@ final class TaskApi extends GeneratedApi
             method: 'GET',
             path: '/tasks',
             responseClass: Responses\TaskListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -64,7 +65,7 @@ final class TaskApi extends GeneratedApi
             method: 'GET',
             path: '/tasks/{id}/logs',
             responseClass: null,
-            responseKind: 'stream',
+            responseKind: ResponseKind::Stream,
             deprecated: false,
             upgrade: null,
         ), $request);

@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_49\Network;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 
 final class NetworkApi extends GeneratedApi
 {
@@ -17,7 +18,7 @@ final class NetworkApi extends GeneratedApi
             method: 'POST',
             path: '/networks/{id}/connect',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -30,7 +31,7 @@ final class NetworkApi extends GeneratedApi
             method: 'POST',
             path: '/networks/create',
             responseClass: Responses\NetworkCreateResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -53,7 +54,7 @@ final class NetworkApi extends GeneratedApi
             method: 'DELETE',
             path: '/networks/{id}',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -66,7 +67,7 @@ final class NetworkApi extends GeneratedApi
             method: 'POST',
             path: '/networks/{id}/disconnect',
             responseClass: null,
-            responseKind: 'void',
+            responseKind: ResponseKind::Void,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -83,7 +84,7 @@ final class NetworkApi extends GeneratedApi
             method: 'GET',
             path: '/networks/{id}',
             responseClass: Responses\NetworkInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -102,7 +103,7 @@ final class NetworkApi extends GeneratedApi
             method: 'GET',
             path: '/networks',
             responseClass: Responses\NetworkListResponse::class,
-            responseKind: 'json-array',
+            responseKind: ResponseKind::JsonArray,
             deprecated: false,
             upgrade: null,
         ), $request);
@@ -121,7 +122,7 @@ final class NetworkApi extends GeneratedApi
             method: 'POST',
             path: '/networks/prune',
             responseClass: Responses\NetworkPruneResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);

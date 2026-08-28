@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Api\V1_49\Distribution;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Generated\Endpoint;
 use Misaf\DockerEngine\Generated\GeneratedApi;
+use Misaf\DockerEngine\Generated\ResponseKind;
 
 final class DistributionApi extends GeneratedApi
 {
@@ -21,7 +22,7 @@ final class DistributionApi extends GeneratedApi
             method: 'GET',
             path: '/distribution/{name}/json',
             responseClass: Responses\DistributionInspectResponse::class,
-            responseKind: 'json',
+            responseKind: ResponseKind::Json,
             deprecated: false,
             upgrade: null,
         ), $request);
