@@ -38,10 +38,10 @@ composer verify
 | `composer verify` | Full gate, run before finishing. |
 | `composer analyse` | PHPStan level 10, `src/` only. |
 | `composer test` | Pest suite (no daemon required). |
-| `composer format` / `composer format-check` | Code style via **php-cs-fixer** (risky rules allowed). |
+| `composer format` / `composer format-check` | Code style via **Pint** (PER preset, strict types, ordered imports). |
 | `composer docker-api:generate --all` | Regenerate all versioned APIs + client, then format. |
 
-Note: php-cs-fixer (`.php-cs-fixer.dist.php`) is the canonical formatter. `pint.json` exists but is not wired into the Composer scripts — do not use Pint.
+Note: Pint (`pint.json`) is the canonical formatter — do not use php-cs-fixer.
 
 ## Working with the generated code
 
@@ -88,7 +88,7 @@ DOCKER_SDK_INTEGRATION=1 composer test -- --group=docker-integration
 
 ## Code style
 
-- `php-cs-fixer` with `@PER-CS2.0`, strict types, and ordered imports.
+- `Pint` (PER preset) with strict types and ordered imports.
 - Run `composer format` before committing.
 
 ## Pull requests

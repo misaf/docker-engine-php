@@ -8,7 +8,7 @@ PHP 8.4 library (PSR-4 `Misaf\DockerEngine\` → `src/`). A framework-neutral Do
 - `composer verify` — full gate: format-check → phpstan → test → spec validate → coverage → determinism. Run this before considering work done.
 - `composer test` — Pest suite (`vendor/bin/pest`). Needs `-d memory_limit=1G` (already set in the script).
 - `composer analyse` — PHPStan level 10, **src only** (phpstan.neon excludes tests/tools).
-- `composer format` / `composer format-check` — canonical formatter is **php-cs-fixer** with risky rules allowed (`@PER-CS2.0` + strict types + ordered imports). The `pint.json` file exists but is not wired into composer scripts; do not use Pint as the formatter.
+- `composer format` / `composer format-check` — canonical formatter is **Pint** (`vendor/bin/pint`, configured via `pint.json`, PER preset with strict types and ordered imports). `format` fixes files in place; `format-check` runs in `--test` mode (fails if any file needs changes).
 - Integration smoke test (needs a live Docker daemon):
 
   ```bash

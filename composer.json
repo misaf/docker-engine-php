@@ -20,8 +20,6 @@
     ],
     "require": {
         "php": "^8.4",
-        "ext-json": "*",
-        "ext-mbstring": "*",
         "symfony/console": "^8.1",
         "symfony/http-client": "^8.1",
         "symfony/json-streamer": "^8.1",
@@ -30,7 +28,6 @@
         "symfony/validator": "^8.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.95",
         "laravel/pint": "^1.30",
         "pestphp/pest": "^5.1",
         "phpstan/phpstan": "^2.2",
@@ -69,8 +66,8 @@
             "@composer format"
         ],
         "docker-api:validate": "@php tools/docker-api docker-api:validate",
-        "format": "@php vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "format-check": "@php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+        "format": "@php vendor/bin/pint",
+        "format-check": "@php vendor/bin/pint --test",
         "test": "@php -d memory_limit=1G vendor/bin/pest",
         "verify": [
             "@composer format-check",
