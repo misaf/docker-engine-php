@@ -50,6 +50,91 @@ $docker = DockerClient::create(
 );
 ```
 
+### Configuration from environment
+
+`DockerClient::fromEnv()` builds a client from environment variables, optionally loading a `.env` file via `symfony/dotenv` (a runtime dependency). The default `DockerClient::create()` auto-loads a `.env` from the working directory using the same cascade Symfony uses — `.env`, `.env.local`, `.env.{APP_ENV}`, `.env.{APP_ENV}.local` (Laravel-style too) — so `DOCKER_*` variables are used automatically as fallbacks. Process environment variables always take precedence, and any explicit argument to `create()` overrides the environment.
+
+```php
+use Misaf\DockerEngine\DockerClient;
+
+// Loads ./env when present, then reads DOCKER_HOST and friends.
+$docker = DockerClient::fromEnv();
+
+// Or point at an explicit file.
+$docker = DockerClient::fromEnv('/srv/app/.env');
+```
+
+Recognised variables:
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `DOCKER_HOST` | Engine host (`unix://`, `tcp://`, `http://`, `https://`). | `unix:///var/run/docker.sock` |
+| `DOCKER_API_VERSION` | Pin the Engine API version, e.g. `1.55`. | negotiate |
+| `DOCKER_TIMEOUT_CONNECT` | Connection timeout (seconds, float). | `5.0` |
+| `DOCKER_TIMEOUT_REQUEST` | Request timeout (seconds, float). | `60.0` |
+| `DOCKER_TLS_CA` | Path to the TLS CA certificate file. | _none_ |
+| `DOCKER_TLS_CERT` | Path to the TLS client certificate file. | _none_ |
+| `DOCKER_TLS_KEY` | Path to the TLS client private key file. | _none_ |
+| `DOCKER_TLS_KEY_PASSWORD` | Password for the TLS private key. | _none_ |
+| `DOCKER_TLS_VERIFY_PEER` | Verify the peer certificate (`true`/`false`). | `true` |
+| `DOCKER_TLS_VERIFY_HOST` | Verify the peer host name (`true`/`false`). | `true` |
+
+TLS is only enabled when at least one of `DOCKER_TLS_CA`, `DOCKER_TLS_CERT`, or `DOCKER_TLS_KEY` is set.
+
+## Symfony integration
+
+The package ships a Symfony bundle and a `symfony/config` definition tree, so it drops into a Symfony application as a normal service. Add `misaf/docker-engine-php` and register the bundle in `config/bundles.php`:
+
+```php
+return [
+    // ...
+    Misaf\DockerEngine\DockerEngineBundle::class => ['all' => true],
+];
+```
+
+Configure it in `config/packages/docker_engine.yaml` (config keys mirror `ClientOptions`, and values may use `%env(DOCKER_HOST)%` placeholders):
+
+```yaml
+docker_engine:
+    host: '%env(DOCKER_HOST)%'
+    api_version: '1.55'
+    timeouts:
+        connect: 5.0
+        request: 60.0
+    tls:
+        ca: '%env(DOCKER_TLS_CA)%'
+        certificate: '%env(DOCKER_TLS_CERT)%'
+        private_key: '%env(DOCKER_TLS_KEY)%'
+        verify_peer: true
+        verify_host: true
+    headers:
+        X-Custom: 'value'
+```
+
+The `DockerClient` is then available from the container and autowirable:
+
+```php
+use Misaf\DockerEngine\DockerClient;
+
+public function index(DockerClient $docker): Response
+{
+    $docker->containers()->list();
+
+    // ...
+}
+```
+
+Outside a bundle, the same tree is reusable directly:
+
+```php
+use Misaf\DockerEngine\DockerClient;
+
+$config = DockerClient::processConfig(require 'docker_engine.php'); // validates + applies defaults
+$client = DockerClient::fromArray($config);
+```
+
+The tree is defined in `Misaf\DockerEngine\DependencyInjection\Configuration` and the wiring in `Misaf\DockerEngine\DependencyInjection\DockerEngineExtension`.
+
 ## Typed APIs
 
 Every supported version has distinct request, response, and schema classes under `Misaf\DockerEngine\Api\V1_40` through `V1_55`. The public client exposes Container, Image, Network, Volume, Exec, System, Swarm, Node, Service, Task, Secret, Config, Plugin, Distribution, and Session groups where the selected Engine version provides them.
@@ -132,7 +217,7 @@ $payload = $response->json();
 
 The public API depends on the package's `Transport` contract. `SymfonyTransport` is the default implementation and uses standalone Symfony HttpClient. Symfony Serializer handles typed hydration through a Docker-aware normalizer, and OptionsResolver validates array-shaped configuration before it becomes typed options. No Symfony Framework bundle, kernel, dependency-injection container, or runtime is used.
 
-Symfony YAML, Finder, and Filesystem are development-only dependencies used by the committed OpenAPI generator. Symfony Console is a runtime dependency that powers the `docker-engine` CLI:
+Symfony YAML, Finder, and Filesystem are development-only dependencies used by the committed OpenAPI generator. Symfony Console is a runtime dependency that powers the `docker-engine` CLI, Symfony Dotenv backs the `DockerClient::fromEnv()` environment loader, and Symfony Config plus DependencyInjection back the optional `DockerEngineBundle`. The core SDK stays framework-neutral: the bundle and config tree are an opt-in integration layer.
 
 ```bash
 php tools/docker-api docker-api:generate --all
