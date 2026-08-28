@@ -13,7 +13,7 @@ Thanks for your interest in `docker-engine-php`. This document explains how the 
 | `tools/` | Development-only OpenAPI generator and its Console commands (**not** shipped at runtime). |
 | `tools/specs/` | Pinned Moby Swagger 2.0 specs (development inputs). |
 | `tests/` | Pest test suite (unit + optional daemon integration). |
-| `bin/` | The `docker-engine` CLI entry point. |
+
 
 The `src/Api/*`, `src/Generated/*`, and `src/DockerClient.php` files are generated. Regenerate them from the pinned specs — never edit them by hand.
 
