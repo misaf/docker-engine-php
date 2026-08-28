@@ -239,6 +239,8 @@ Unit tests use fake transports and require no daemon. The optional integration s
 DOCKER_SDK_INTEGRATION=1 composer test -- --group=docker-integration
 ```
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributor workflow, including how to work with and regenerate the OpenAPI-derived code.
+
 ## Framework compatibility
 
 The SDK has no Laravel, Illuminate, or Symfony Framework dependency. Plain PHP, Laravel, Symfony applications, CLI programs, and other frameworks all consume the same `DockerClient` implementation.
