@@ -8,14 +8,14 @@ Thanks for your interest in `docker-engine-php`. This document explains how the 
 | --- | --- |
 | `src/` | Runtime library code (PSR-4 `Misaf\DockerEngine\`). |
 | `src/Api/` | **Committed, generated** code: versioned DTOs (`V1_40`..`V1_55`), domain APIs, schemas. Do not hand-edit. |
-| `src/Generated/` | Runtime base classes the generated code builds on. |
-| `src/Contracts/` | The three interfaces the SDK depends on: `Transport`, `Serializer`, `Stream`. |
+| `src/Generated/` | Committed runtime base classes used by generated code. Do not hand-edit. |
+| `src/Contracts/` | Stable domain, transport, serializer, and stream contracts. |
 | `tools/` | Development-only OpenAPI generator and its Console commands (**not** shipped at runtime). |
 | `tools/specs/` | Pinned Moby Swagger 2.0 specs (development inputs). |
 | `tests/` | Pest test suite (unit + optional daemon integration). |
 
 
-The `src/Api/*`, `src/Generated/*`, and `src/DockerClient.php` files are generated. Regenerate them from the pinned specs — never edit them by hand.
+The `src/Api/*`, `src/Generated/*`, `src/DockerClient.php`, and `src/VersionedApi.php` files are generated. Regenerate them from the pinned specs — never edit them by hand.
 
 ## Environment
 
@@ -39,7 +39,7 @@ composer verify
 | `composer analyse` | PHPStan level 10, `src/` only. |
 | `composer test` | Pest suite (no daemon required). |
 | `composer format` / `composer format-check` | Code style via **Pint** (PER preset, strict types, ordered imports). |
-| `composer docker-api:generate --all` | Regenerate all versioned APIs + client, then format. |
+| `php tools/docker-api docker-api:generate --all` | Regenerate all versioned APIs + client, then format. |
 
 Note: Pint (`pint.json`) is the canonical formatter — do not use php-cs-fixer.
 

@@ -8,6 +8,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -15,10 +16,12 @@ jobs:
           php-version: "8.4"
           coverage: none
       - uses: ramsey/composer-install@v3
+      - run: composer validate --strict
       - run: composer verify
 
   docker-integration:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       matrix:
         php: ["8.4", "8.5"]
@@ -29,13 +32,14 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
       - uses: ramsey/composer-install@v3
-      - run: docker info
+      - run: docker version
       - run: composer test -- --group=docker-integration
         env:
           DOCKER_SDK_INTEGRATION: "1"
 
   podman-integration:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -44,6 +48,7 @@ jobs:
           coverage: none
       - uses: ramsey/composer-install@v3
       - run: sudo apt-get update && sudo apt-get install -y podman
+      - run: podman version
       - run: |
           podman system service --time=0 unix:///tmp/podman-docker-sdk.sock &
           for attempt in {1..30}; do

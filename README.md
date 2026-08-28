@@ -116,6 +116,20 @@ $session->cancel();
 
 TTY output is raw and cannot separate stderr. Non-TTY output uses Docker's multiplex headers. Stream timeouts come from `TimeoutOptions`; cancellation closes the active stream, and upgraded sockets support a write-side half-close for stdin EOF.
 
+Stream wrappers close their underlying transport when consumption finishes, iteration stops early, or a consumer callback throws. They also expose `close()` and `cancel()` for explicit lifecycle ownership:
+
+```php
+$logs = $docker->containers()->logs('web');
+
+try {
+    foreach ($logs->frames() as $frame) {
+        // Consume lazily; breaking is safe.
+    }
+} finally {
+    $logs->cancel();
+}
+```
+
 ## Docker and Podman
 
 Docker is the reference implementation. API-compatible Podman is tested in CI through its Docker-compatible socket. Capability detection uses `/version`, `/info`, and the negotiated API version to identify the implementation and expose a deliberately small extension point:
@@ -129,6 +143,8 @@ if ($capabilities->supportsSwarm) {
 ```
 
 Capabilities are conservative hints, not a hardcoded compatibility matrix. Engine-specific endpoints belong in `raw()` or an explicit adapter.
+
+See [COMPATIBILITY.md](COMPATIBILITY.md) for the supported/tested distinction, exact API range, transport coverage, and the separate stability guarantees for the stable, generated, and raw layers.
 
 ## Connections
 
