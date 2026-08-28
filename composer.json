@@ -21,10 +21,8 @@
     "require": {
         "php": "^8.4",
         "symfony/http-client": "^8.1",
-        "symfony/json-streamer": "^8.1",
         "symfony/options-resolver": "^8.1",
-        "symfony/serializer": "^8.1",
-        "symfony/validator": "^8.1"
+        "symfony/serializer": "^8.1"
     },
     "require-dev": {
         "laravel/pint": "^1.30",
