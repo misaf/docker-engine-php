@@ -20,7 +20,6 @@
     ],
     "require": {
         "php": "^8.4",
-        "symfony/console": "^8.1",
         "symfony/http-client": "^8.1",
         "symfony/json-streamer": "^8.1",
         "symfony/options-resolver": "^8.1",
@@ -31,6 +30,7 @@
         "laravel/pint": "^1.30",
         "pestphp/pest": "^5.1",
         "phpstan/phpstan": "^2.2",
+        "symfony/console": "^8.1",
         "symfony/filesystem": "^8.1",
         "symfony/finder": "^8.1",
         "symfony/yaml": "^8.1"
@@ -40,9 +40,6 @@
             "Misaf\\DockerEngine\\": "src/"
         }
     },
-    "bin": [
-        "bin/docker-engine"
-    ],
     "autoload-dev": {
         "psr-4": {
             "Misaf\\DockerEngine\\Tests\\": "tests/",
