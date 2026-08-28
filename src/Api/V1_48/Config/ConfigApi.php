@@ -22,7 +22,7 @@ final class ConfigApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ConfigCreateResponse) {
+        if ( ! $result instanceof Responses\ConfigCreateResponse) {
             throw new InvalidResponseException('Docker operation ConfigCreate returned an unexpected response type.');
         }
 
@@ -62,7 +62,7 @@ final class ConfigApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ConfigInspectResponse) {
+        if ( ! $result instanceof Responses\ConfigInspectResponse) {
             throw new InvalidResponseException('Docker operation ConfigInspect returned an unexpected response type.');
         }
 
@@ -81,7 +81,7 @@ final class ConfigApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ConfigListResponse) {
+        if ( ! $result instanceof Responses\ConfigListResponse) {
             throw new InvalidResponseException('Docker operation ConfigList returned an unexpected response type.');
         }
 

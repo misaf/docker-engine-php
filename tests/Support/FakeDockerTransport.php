@@ -30,7 +30,7 @@ final class FakeDockerTransport implements Transport
         $this->requests[] = $request;
         $response = array_shift($this->responses);
 
-        if (! $response instanceof Response) {
+        if ( ! $response instanceof Response) {
             throw new LogicException('No buffered Docker response was queued.');
         }
 
@@ -42,7 +42,7 @@ final class FakeDockerTransport implements Transport
         $this->requests[] = $request;
         $response = array_shift($this->responses);
 
-        if (! $response instanceof StreamResponse) {
+        if ( ! $response instanceof StreamResponse) {
             throw new LogicException('No streaming Docker response was queued.');
         }
 

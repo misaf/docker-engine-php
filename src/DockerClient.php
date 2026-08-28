@@ -90,7 +90,7 @@ final class DockerClient
         $timeoutSeconds = 60 === $timeoutSeconds
             ? (int) (self::env('DOCKER_TIMEOUT_REQUEST') ?? $timeoutSeconds)
             : $timeoutSeconds;
-        $tls = $tls ?? self::tlsFromEnv();
+        $tls ??= self::tlsFromEnv();
 
         return self::fromOptions(ClientOptions::resolve([
             'host'        => $host,

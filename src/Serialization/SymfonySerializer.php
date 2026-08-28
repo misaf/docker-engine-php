@@ -28,7 +28,7 @@ final readonly class SymfonySerializer implements SerializerContract
             throw new InvalidResponseException('Unable to normalize Docker DTO: ' . $exception->getMessage(), previous: $exception);
         }
 
-        if (! is_array($normalized)) {
+        if ( ! is_array($normalized)) {
             throw new InvalidResponseException('Docker DTO normalization did not produce an array.');
         }
 
@@ -48,7 +48,7 @@ final readonly class SymfonySerializer implements SerializerContract
             throw new InvalidResponseException('Unable to hydrate Docker DTO: ' . $exception->getMessage(), previous: $exception);
         }
 
-        if (! $value instanceof $class) {
+        if ( ! $value instanceof $class) {
             throw new InvalidResponseException('Docker DTO hydration did not produce an object.');
         }
 

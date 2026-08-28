@@ -26,7 +26,7 @@ final class DistributionApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\DistributionInspectResponse) {
+        if ( ! $result instanceof Responses\DistributionInspectResponse) {
             throw new InvalidResponseException('Docker operation DistributionInspect returned an unexpected response type.');
         }
 

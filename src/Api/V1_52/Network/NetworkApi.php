@@ -35,7 +35,7 @@ final class NetworkApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\NetworkCreateResponse) {
+        if ( ! $result instanceof Responses\NetworkCreateResponse) {
             throw new InvalidResponseException('Docker operation NetworkCreate returned an unexpected response type.');
         }
 
@@ -88,7 +88,7 @@ final class NetworkApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\NetworkInspectResponse) {
+        if ( ! $result instanceof Responses\NetworkInspectResponse) {
             throw new InvalidResponseException('Docker operation NetworkInspect returned an unexpected response type.');
         }
 
@@ -107,7 +107,7 @@ final class NetworkApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\NetworkListResponse) {
+        if ( ! $result instanceof Responses\NetworkListResponse) {
             throw new InvalidResponseException('Docker operation NetworkList returned an unexpected response type.');
         }
 
@@ -126,7 +126,7 @@ final class NetworkApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\NetworkPruneResponse) {
+        if ( ! $result instanceof Responses\NetworkPruneResponse) {
             throw new InvalidResponseException('Docker operation NetworkPrune returned an unexpected response type.');
         }
 

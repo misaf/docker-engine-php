@@ -27,7 +27,7 @@ final readonly class ProgressStream implements IteratorAggregate
     {
         $buffer = '';
 
-        while (! $this->stream->eof()) {
+        while ( ! $this->stream->eof()) {
             $buffer .= $this->stream->read();
 
             while (false !== ($newline = mb_strpos($buffer, "\n"))) {
@@ -53,7 +53,7 @@ final readonly class ProgressStream implements IteratorAggregate
             throw new InvalidResponseException('Docker progress stream contains invalid JSON: ' . $exception->getMessage(), previous: $exception);
         }
 
-        if (! is_array($data)) {
+        if ( ! is_array($data)) {
             throw new InvalidResponseException('Docker progress event must be a JSON object.');
         }
 

@@ -32,12 +32,12 @@ final class SymfonyResponseStream implements Stream
 
         try {
             while (mb_strlen($this->buffer, '8bit') < $length && ! $this->finished) {
-                if (! $this->started) {
+                if ( ! $this->started) {
                     $this->chunks->rewind();
                     $this->started = true;
                 }
 
-                if (! $this->chunks->valid()) {
+                if ( ! $this->chunks->valid()) {
                     $this->finished = true;
 
                     break;

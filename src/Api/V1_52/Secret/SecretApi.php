@@ -22,7 +22,7 @@ final class SecretApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\SecretCreateResponse) {
+        if ( ! $result instanceof Responses\SecretCreateResponse) {
             throw new InvalidResponseException('Docker operation SecretCreate returned an unexpected response type.');
         }
 
@@ -62,7 +62,7 @@ final class SecretApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\SecretInspectResponse) {
+        if ( ! $result instanceof Responses\SecretInspectResponse) {
             throw new InvalidResponseException('Docker operation SecretInspect returned an unexpected response type.');
         }
 
@@ -81,7 +81,7 @@ final class SecretApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\SecretListResponse) {
+        if ( ! $result instanceof Responses\SecretListResponse) {
             throw new InvalidResponseException('Docker operation SecretList returned an unexpected response type.');
         }
 

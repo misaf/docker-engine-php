@@ -23,7 +23,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ContainerArchive returned an unexpected response type.');
         }
 
@@ -59,7 +59,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: 'tcp',
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ContainerAttach returned an unexpected response type.');
         }
 
@@ -82,7 +82,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: 'websocket',
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ContainerAttachWebsocket returned an unexpected response type.');
         }
 
@@ -105,7 +105,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerChangesResponse) {
+        if ( ! $result instanceof Responses\ContainerChangesResponse) {
             throw new InvalidResponseException('Docker operation ContainerChanges returned an unexpected response type.');
         }
 
@@ -124,7 +124,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerCreateResponse) {
+        if ( ! $result instanceof Responses\ContainerCreateResponse) {
             throw new InvalidResponseException('Docker operation ContainerCreate returned an unexpected response type.');
         }
 
@@ -164,7 +164,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ContainerExport returned an unexpected response type.');
         }
 
@@ -187,7 +187,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerInspectResponse) {
+        if ( ! $result instanceof Responses\ContainerInspectResponse) {
             throw new InvalidResponseException('Docker operation ContainerInspect returned an unexpected response type.');
         }
 
@@ -223,7 +223,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerListResponse) {
+        if ( ! $result instanceof Responses\ContainerListResponse) {
             throw new InvalidResponseException('Docker operation ContainerList returned an unexpected response type.');
         }
 
@@ -246,7 +246,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ContainerLogs returned an unexpected response type.');
         }
 
@@ -282,7 +282,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerPruneResponse) {
+        if ( ! $result instanceof Responses\ContainerPruneResponse) {
             throw new InvalidResponseException('Docker operation ContainerPrune returned an unexpected response type.');
         }
 
@@ -365,7 +365,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ContainerStats returned an unexpected response type.');
         }
 
@@ -405,7 +405,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerTopResponse) {
+        if ( ! $result instanceof Responses\ContainerTopResponse) {
             throw new InvalidResponseException('Docker operation ContainerTop returned an unexpected response type.');
         }
 
@@ -441,7 +441,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerUpdateResponse) {
+        if ( ! $result instanceof Responses\ContainerUpdateResponse) {
             throw new InvalidResponseException('Docker operation ContainerUpdate returned an unexpected response type.');
         }
 
@@ -464,7 +464,7 @@ final class ContainerApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerWaitResponse) {
+        if ( ! $result instanceof Responses\ContainerWaitResponse) {
             throw new InvalidResponseException('Docker operation ContainerWait returned an unexpected response type.');
         }
 

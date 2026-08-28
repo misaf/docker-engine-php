@@ -20,7 +20,7 @@ final readonly class VersionNegotiator
     {
         $response = $this->transport->request(new Request('GET', '/version'));
 
-        if (! $response->successful()) {
+        if ( ! $response->successful()) {
             throw new VersionNegotiationException(
                 'Docker API version negotiation failed: ' . $this->errors->exception($response)->getMessage(),
             );
@@ -30,11 +30,11 @@ final readonly class VersionNegotiator
         $maximum = $data['ApiVersion'] ?? null;
         $minimum = $data['MinAPIVersion'] ?? null;
 
-        if (! is_string($maximum) || '' === $maximum) {
+        if ( ! is_string($maximum) || '' === $maximum) {
             throw new VersionNegotiationException('Docker /version response did not contain ApiVersion.');
         }
 
-        if (! is_string($minimum) || '' === $minimum) {
+        if ( ! is_string($minimum) || '' === $minimum) {
             throw new VersionNegotiationException('Docker /version response did not contain MinAPIVersion.');
         }
 

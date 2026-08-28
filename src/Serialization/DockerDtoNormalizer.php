@@ -35,7 +35,7 @@ final class DockerDtoNormalizer implements NormalizerInterface, DenormalizerInte
 
     public function normalize(mixed $data, ?string $format = null, array $context = []): array
     {
-        if (! is_object($data)) {
+        if ( ! is_object($data)) {
             throw new InvalidResponseException('Docker DTO normalization requires an object.');
         }
 
@@ -43,7 +43,7 @@ final class DockerDtoNormalizer implements NormalizerInterface, DenormalizerInte
         $reflection = new ReflectionClass($data);
 
         foreach ($reflection->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
-            if (! $property->isInitialized($data)) {
+            if ( ! $property->isInitialized($data)) {
                 continue;
             }
 
@@ -66,11 +66,11 @@ final class DockerDtoNormalizer implements NormalizerInterface, DenormalizerInte
 
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): object
     {
-        if (! is_array($data)) {
+        if ( ! is_array($data)) {
             throw new InvalidResponseException(sprintf('Docker response for %s must be an object.', $type));
         }
 
-        if (! class_exists($type)) {
+        if ( ! class_exists($type)) {
             throw new InvalidResponseException('Unknown Docker DTO class ' . $type . '.');
         }
 
@@ -86,7 +86,7 @@ final class DockerDtoNormalizer implements NormalizerInterface, DenormalizerInte
         foreach ($constructor->getParameters() as $parameter) {
             $wireName = $this->wireName($reflection->getProperty($parameter->getName()));
 
-            if (! array_key_exists($wireName, $data)) {
+            if ( ! array_key_exists($wireName, $data)) {
                 if ($parameter->isDefaultValueAvailable()) {
                     $arguments[] = $parameter->getDefaultValue();
 

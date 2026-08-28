@@ -23,7 +23,7 @@ final class ServiceApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ServiceCreateResponse) {
+        if ( ! $result instanceof Responses\ServiceCreateResponse) {
             throw new InvalidResponseException('Docker operation ServiceCreate returned an unexpected response type.');
         }
 
@@ -63,7 +63,7 @@ final class ServiceApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ServiceInspectResponse) {
+        if ( ! $result instanceof Responses\ServiceInspectResponse) {
             throw new InvalidResponseException('Docker operation ServiceInspect returned an unexpected response type.');
         }
 
@@ -82,7 +82,7 @@ final class ServiceApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ServiceListResponse) {
+        if ( ! $result instanceof Responses\ServiceListResponse) {
             throw new InvalidResponseException('Docker operation ServiceList returned an unexpected response type.');
         }
 
@@ -105,7 +105,7 @@ final class ServiceApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ServiceLogs returned an unexpected response type.');
         }
 
@@ -124,7 +124,7 @@ final class ServiceApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ServiceUpdateResponse) {
+        if ( ! $result instanceof Responses\ServiceUpdateResponse) {
             throw new InvalidResponseException('Docker operation ServiceUpdate returned an unexpected response type.');
         }
 

@@ -23,7 +23,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\SystemAuthResponse) {
+        if ( ! $result instanceof Responses\SystemAuthResponse) {
             throw new InvalidResponseException('Docker operation SystemAuth returned an unexpected response type.');
         }
 
@@ -42,7 +42,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\SystemDataUsageResponse) {
+        if ( ! $result instanceof Responses\SystemDataUsageResponse) {
             throw new InvalidResponseException('Docker operation SystemDataUsage returned an unexpected response type.');
         }
 
@@ -61,7 +61,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation SystemEvents returned an unexpected response type.');
         }
 
@@ -80,7 +80,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ));
 
-        if (! $result instanceof Responses\SystemInfoResponse) {
+        if ( ! $result instanceof Responses\SystemInfoResponse) {
             throw new InvalidResponseException('Docker operation SystemInfo returned an unexpected response type.');
         }
 
@@ -99,7 +99,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ));
 
-        if (! is_string($result)) {
+        if ( ! is_string($result)) {
             throw new InvalidResponseException('Docker operation SystemPing did not return a primitive response.');
         }
 
@@ -118,7 +118,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ));
 
-        if (! is_string($result)) {
+        if ( ! is_string($result)) {
             throw new InvalidResponseException('Docker operation SystemPingHead did not return a primitive response.');
         }
 
@@ -137,7 +137,7 @@ final class SystemApi extends GeneratedApi
             upgrade: null,
         ));
 
-        if (! $result instanceof Responses\SystemVersionResponse) {
+        if ( ! $result instanceof Responses\SystemVersionResponse) {
             throw new InvalidResponseException('Docker operation SystemVersion returned an unexpected response type.');
         }
 

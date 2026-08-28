@@ -62,7 +62,7 @@ it('streams ordinary responses without buffering the complete body', function ()
     $response = (new SymfonyTransport(new ClientOptions(), new SymfonySerializer(), $client))->stream(new Request('GET', '/events'));
     $body = '';
 
-    while (! $response->stream->eof()) {
+    while ( ! $response->stream->eof()) {
         $body .= $response->stream->read(3);
     }
 

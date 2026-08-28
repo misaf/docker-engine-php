@@ -43,7 +43,7 @@ final class NodeApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\NodeInspectResponse) {
+        if ( ! $result instanceof Responses\NodeInspectResponse) {
             throw new InvalidResponseException('Docker operation NodeInspect returned an unexpected response type.');
         }
 
@@ -62,7 +62,7 @@ final class NodeApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\NodeListResponse) {
+        if ( ! $result instanceof Responses\NodeListResponse) {
             throw new InvalidResponseException('Docker operation NodeList returned an unexpected response type.');
         }
 

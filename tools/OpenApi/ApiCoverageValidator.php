@@ -24,7 +24,7 @@ final readonly class ApiCoverageValidator
             $definitions = $spec['definitions'];
             $manifestClass = 'Misaf\DockerEngine\\Api\\' . $suffix . '\\Manifest';
 
-            if (! class_exists($manifestClass)) {
+            if ( ! class_exists($manifestClass)) {
                 $errors[] = 'Missing generated manifest ' . $manifestClass;
 
                 continue;
@@ -51,14 +51,14 @@ final readonly class ApiCoverageValidator
             }
 
             foreach ($definitions as $name => $unused) {
-                if (! is_string($name)) {
+                if ( ! is_string($name)) {
                     continue;
                 }
 
                 $class = $schemas[$name] ?? null;
                 $file = is_string($class) ? $this->apiDirectory . '/' . $suffix . '/Schemas/' . $class . '.php' : '';
 
-                if (! is_string($class) || ! is_file($file)) {
+                if ( ! is_string($class) || ! is_file($file)) {
                     $errors[] = sprintf('v%s is missing schema %s.', $version, $name);
                 }
             }
@@ -88,14 +88,14 @@ final readonly class ApiCoverageValidator
         $tags = [];
 
         foreach ($spec['paths'] as $pathItem) {
-            if (! is_array($pathItem)) {
+            if ( ! is_array($pathItem)) {
                 continue;
             }
 
             foreach (['delete', 'get', 'head', 'patch', 'post', 'put'] as $method) {
                 $operation = $pathItem[$method] ?? null;
 
-                if (! is_array($operation) || ! is_string($operation['operationId'] ?? null)) {
+                if ( ! is_array($operation) || ! is_string($operation['operationId'] ?? null)) {
                     continue;
                 }
 

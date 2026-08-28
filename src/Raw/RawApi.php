@@ -42,7 +42,7 @@ final readonly class RawApi
             $body,
         ));
 
-        if (! $response->successful()) {
+        if ( ! $response->successful()) {
             throw $this->errors->exception($response);
         }
 

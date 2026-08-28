@@ -74,8 +74,8 @@ final readonly class ClientOptions
             $request = $resolved['request'];
             $streamIdle = $resolved['stream_idle'];
 
-            if ((! is_int($connect) && ! is_float($connect))
-                || (! is_int($request) && ! is_float($request))
+            if (( ! is_int($connect) && ! is_float($connect))
+                || ( ! is_int($request) && ! is_float($request))
                 || (null !== $streamIdle && ! is_int($streamIdle) && ! is_float($streamIdle))) {
                 throw new InvalidArgumentException('Timeout values must be numeric.');
             }
@@ -130,7 +130,7 @@ final readonly class ClientOptions
         });
         $resolver->setNormalizer('headers', static function (Options $options, array $headers): array {
             foreach ($headers as $name => $value) {
-                if (! is_string($name) || ! is_string($value)) {
+                if ( ! is_string($name) || ! is_string($value)) {
                     throw new InvalidArgumentException('Client headers must be a string-to-string map.');
                 }
             }
@@ -144,7 +144,7 @@ final readonly class ClientOptions
         $tls = $resolved['tls'];
         $headers = $resolved['headers'];
 
-        if (! is_string($host)
+        if ( ! is_string($host)
             || (null !== $apiVersion && ! $apiVersion instanceof ApiVersion)
             || ! $timeouts instanceof TimeoutOptions
             || (null !== $tls && ! $tls instanceof TlsOptions)
@@ -153,7 +153,7 @@ final readonly class ClientOptions
         }
 
         foreach ($headers as $name => $value) {
-            if (! is_string($name) || ! is_string($value)) {
+            if ( ! is_string($name) || ! is_string($value)) {
                 throw new InvalidArgumentException('Client headers must be a string-to-string map.');
             }
         }
@@ -179,7 +179,7 @@ final readonly class ClientOptions
 
         $parts = parse_url($host);
 
-        if (! is_array($parts) || ! in_array($parts['scheme'] ?? null, ['http', 'https'], true) || ! is_string($parts['host'] ?? null)) {
+        if ( ! is_array($parts) || ! in_array($parts['scheme'] ?? null, ['http', 'https'], true) || ! is_string($parts['host'] ?? null)) {
             throw new InvalidArgumentException('Engine host must use unix://, tcp://, http://, or https://.');
         }
     }

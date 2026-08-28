@@ -15,7 +15,7 @@ final class DockerStreamDecoder
     {
         $buffer = '';
 
-        while (! $stream->eof() || '' !== $buffer) {
+        while ( ! $stream->eof() || '' !== $buffer) {
             while (mb_strlen($buffer) < 8 && ! $stream->eof()) {
                 $buffer .= $stream->read();
             }

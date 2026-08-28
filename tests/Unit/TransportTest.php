@@ -21,7 +21,7 @@ it('decodes HTTP chunk framing without buffering the whole stream', function ():
     $stream = new ChunkedStream(ResourceStream::memory("4\r\nWiki\r\n5\r\npedia\r\n0\r\n\r\n"));
     $body = '';
 
-    while (! $stream->eof()) {
+    while ( ! $stream->eof()) {
         $body .= $stream->read(3);
     }
 

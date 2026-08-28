@@ -26,7 +26,7 @@ abstract class GeneratedImageApi extends GeneratedApi
         if ($response->statusCode < 200 || $response->statusCode >= 300) {
             $body = '';
 
-            while (! $response->stream->eof()) {
+            while ( ! $response->stream->eof()) {
                 $body .= $response->stream->read();
             }
 

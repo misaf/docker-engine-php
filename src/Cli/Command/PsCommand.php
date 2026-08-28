@@ -67,7 +67,7 @@ final class PsCommand extends AbstractCommand
 
             /** @var array<int, string> $names */
             $names = $item['Names'] ?? [];
-            $name = [] !== $names ? ltrim(Render::value($names[0]), '/') : '';
+            $name = [] !== $names ? mb_ltrim(Render::value($names[0]), '/') : '';
 
             $created = $item['Created'] ?? null;
             $created = is_int($created) ? Render::ago($created) : '';

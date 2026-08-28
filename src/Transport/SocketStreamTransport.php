@@ -61,7 +61,7 @@ final readonly class SocketStreamTransport
         $this->writeAll($socket, $head . "\r\n" . ($body ?? ''));
 
         if (null !== $bodyStream) {
-            while (! $bodyStream->eof()) {
+            while ( ! $bodyStream->eof()) {
                 $chunk = $bodyStream->read();
 
                 if ('' !== $chunk) {

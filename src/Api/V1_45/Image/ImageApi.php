@@ -24,7 +24,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\BuildPruneResponse) {
+        if ( ! $result instanceof Responses\BuildPruneResponse) {
             throw new InvalidResponseException('Docker operation BuildPrune returned an unexpected response type.');
         }
 
@@ -43,7 +43,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof ProgressStream) {
+        if ( ! $result instanceof ProgressStream) {
             throw new InvalidResponseException('Docker operation ImageBuild returned an unexpected response type.');
         }
 
@@ -62,7 +62,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImageCommitResponse) {
+        if ( ! $result instanceof Responses\ImageCommitResponse) {
             throw new InvalidResponseException('Docker operation ImageCommit returned an unexpected response type.');
         }
 
@@ -81,7 +81,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof ProgressStream) {
+        if ( ! $result instanceof ProgressStream) {
             throw new InvalidResponseException('Docker operation ImageCreate returned an unexpected response type.');
         }
 
@@ -104,7 +104,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImageDeleteResponse) {
+        if ( ! $result instanceof Responses\ImageDeleteResponse) {
             throw new InvalidResponseException('Docker operation ImageDelete returned an unexpected response type.');
         }
 
@@ -127,7 +127,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ImageGet returned an unexpected response type.');
         }
 
@@ -146,7 +146,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ImageGetAll returned an unexpected response type.');
         }
 
@@ -169,7 +169,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImageHistoryResponse) {
+        if ( ! $result instanceof Responses\ImageHistoryResponse) {
             throw new InvalidResponseException('Docker operation ImageHistory returned an unexpected response type.');
         }
 
@@ -192,7 +192,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImageInspectResponse) {
+        if ( ! $result instanceof Responses\ImageInspectResponse) {
             throw new InvalidResponseException('Docker operation ImageInspect returned an unexpected response type.');
         }
 
@@ -211,7 +211,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImageListResponse) {
+        if ( ! $result instanceof Responses\ImageListResponse) {
             throw new InvalidResponseException('Docker operation ImageList returned an unexpected response type.');
         }
 
@@ -230,7 +230,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof ProgressStream) {
+        if ( ! $result instanceof ProgressStream) {
             throw new InvalidResponseException('Docker operation ImageLoad returned an unexpected response type.');
         }
 
@@ -249,7 +249,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImagePruneResponse) {
+        if ( ! $result instanceof Responses\ImagePruneResponse) {
             throw new InvalidResponseException('Docker operation ImagePrune returned an unexpected response type.');
         }
 
@@ -268,7 +268,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof ProgressStream) {
+        if ( ! $result instanceof ProgressStream) {
             throw new InvalidResponseException('Docker operation ImagePush returned an unexpected response type.');
         }
 
@@ -287,7 +287,7 @@ final class ImageApi extends GeneratedImageApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ImageSearchResponse) {
+        if ( ! $result instanceof Responses\ImageSearchResponse) {
             throw new InvalidResponseException('Docker operation ImageSearch returned an unexpected response type.');
         }
 

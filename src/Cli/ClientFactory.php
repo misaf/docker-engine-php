@@ -34,9 +34,9 @@ final class ClientFactory
         $host = is_string($host) ? $host : 'unix:///var/run/docker.sock';
 
         $options = ClientOptions::resolve([
-            'host' => $host,
+            'host'        => $host,
             'api_version' => is_string($version) ? ApiVersion::parse($version) : null,
-            'tls' => $tls,
+            'tls'         => $tls,
         ]);
 
         return DockerClient::fromOptions($options);

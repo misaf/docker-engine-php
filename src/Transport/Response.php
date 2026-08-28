@@ -45,7 +45,7 @@ final readonly class Response
             throw new InvalidResponseException('Docker returned invalid JSON: ' . $exception->getMessage(), previous: $exception);
         }
 
-        if (! is_array($data)) {
+        if ( ! is_array($data)) {
             throw new InvalidResponseException('Docker returned a JSON value where an object or array was required.');
         }
 

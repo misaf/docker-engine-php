@@ -48,7 +48,7 @@ final class WebSocketStream implements Stream
 
     public function close(): void
     {
-        if (! $this->closed && ! $this->inner->eof()) {
+        if ( ! $this->closed && ! $this->inner->eof()) {
             $this->writeFrame(0x8, '');
         }
 
@@ -107,7 +107,7 @@ final class WebSocketStream implements Stream
             return;
         }
 
-        if (! in_array($opcode, [0x0, 0x1, 0x2, 0xA], true)) {
+        if ( ! in_array($opcode, [0x0, 0x1, 0x2, 0xA], true)) {
             throw new InvalidResponseException('Docker WebSocket frame uses an unsupported opcode.');
         }
 

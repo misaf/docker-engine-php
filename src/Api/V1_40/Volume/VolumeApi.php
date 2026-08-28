@@ -22,7 +22,7 @@ final class VolumeApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\VolumeCreateResponse) {
+        if ( ! $result instanceof Responses\VolumeCreateResponse) {
             throw new InvalidResponseException('Docker operation VolumeCreate returned an unexpected response type.');
         }
 
@@ -62,7 +62,7 @@ final class VolumeApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\VolumeInspectResponse) {
+        if ( ! $result instanceof Responses\VolumeInspectResponse) {
             throw new InvalidResponseException('Docker operation VolumeInspect returned an unexpected response type.');
         }
 
@@ -81,7 +81,7 @@ final class VolumeApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\VolumeListResponse) {
+        if ( ! $result instanceof Responses\VolumeListResponse) {
             throw new InvalidResponseException('Docker operation VolumeList returned an unexpected response type.');
         }
 
@@ -100,7 +100,7 @@ final class VolumeApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\VolumePruneResponse) {
+        if ( ! $result instanceof Responses\VolumePruneResponse) {
             throw new InvalidResponseException('Docker operation VolumePrune returned an unexpected response type.');
         }
 

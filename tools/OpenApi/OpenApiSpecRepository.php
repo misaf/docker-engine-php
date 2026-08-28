@@ -17,7 +17,7 @@ final readonly class OpenApiSpecRepository
     /** @return list<string> */
     public function versions(): array
     {
-        if (! is_dir($this->directory)) {
+        if ( ! is_dir($this->directory)) {
             throw new RuntimeException('Specification directory does not exist: ' . $this->directory);
         }
 
@@ -36,7 +36,7 @@ final readonly class OpenApiSpecRepository
         $version = $version instanceof ApiVersion ? $version : ApiVersion::parse($version);
         $file = $this->directory . '/v' . $version->value . '.yaml';
 
-        if (! is_file($file)) {
+        if ( ! is_file($file)) {
             throw new RuntimeException('Missing specification ' . $file);
         }
 
@@ -54,7 +54,7 @@ final readonly class OpenApiSpecRepository
             throw new RuntimeException('Invalid OpenAPI YAML in ' . $file . ': ' . $exception->getMessage(), previous: $exception);
         }
 
-        if (! is_array($spec) || ! is_array($spec['paths'] ?? null) || ! is_array($spec['definitions'] ?? null)) {
+        if ( ! is_array($spec) || ! is_array($spec['paths'] ?? null) || ! is_array($spec['definitions'] ?? null)) {
             throw new RuntimeException($file . ' is not a supported Docker Swagger document.');
         }
 
@@ -80,7 +80,7 @@ final readonly class OpenApiSpecRepository
                 foreach (explode('/', mb_substr($item, 2)) as $segment) {
                     $segment = str_replace(['~1', '~0'], ['/', '~'], rawurldecode($segment));
 
-                    if (! is_array($resolved) || ! array_key_exists($segment, $resolved)) {
+                    if ( ! is_array($resolved) || ! array_key_exists($segment, $resolved)) {
                         $unresolved[] = $item;
 
                         continue 2;

@@ -108,14 +108,14 @@ final class DockerApiGenerator
     {
         $parsed = Yaml::parseFile($specFile);
 
-        if (! is_array($parsed)) {
+        if ( ! is_array($parsed)) {
             throw new RuntimeException('Unable to parse ' . $specFile);
         }
 
         $this->spec = $parsed;
         $definitions = $parsed['definitions'] ?? null;
 
-        if (! is_array($definitions)) {
+        if ( ! is_array($definitions)) {
             throw new RuntimeException($specFile . ' contains no Swagger definitions.');
         }
 
@@ -239,33 +239,33 @@ final class DockerApiGenerator
         $operations = [];
         $paths = $this->spec['paths'] ?? [];
 
-        if (! is_array($paths)) {
+        if ( ! is_array($paths)) {
             return [];
         }
 
         foreach ($paths as $path => $pathItem) {
-            if (! is_string($path) || ! is_array($pathItem)) {
+            if ( ! is_string($path) || ! is_array($pathItem)) {
                 continue;
             }
 
             foreach (['delete', 'get', 'head', 'patch', 'post', 'put'] as $method) {
                 $definition = $pathItem[$method] ?? null;
 
-                if (! is_array($definition)) {
+                if ( ! is_array($definition)) {
                     continue;
                 }
 
                 $operationId = $definition['operationId'] ?? null;
                 $tag = $definition['tags'][0] ?? null;
 
-                if (! is_string($operationId) || ! is_string($tag)) {
+                if ( ! is_string($operationId) || ! is_string($tag)) {
                     throw new RuntimeException(sprintf('%s %s has no operationId or tag.', mb_strtoupper($method), $path));
                 }
 
                 $parameters = [];
 
                 foreach ([...($pathItem['parameters'] ?? []), ...($definition['parameters'] ?? [])] as $parameter) {
-                    if (! is_array($parameter)) {
+                    if ( ! is_array($parameter)) {
                         continue;
                     }
 
@@ -293,14 +293,14 @@ final class DockerApiGenerator
     {
         $reference = $parameter['$ref'] ?? null;
 
-        if (! is_string($reference)) {
+        if ( ! is_string($reference)) {
             return $parameter;
         }
 
         $name = basename(str_replace('\\', '/', $reference));
         $resolved = $this->spec['parameters'][$name] ?? null;
 
-        if (! is_array($resolved)) {
+        if ( ! is_array($resolved)) {
             throw new RuntimeException('Unresolvable parameter reference ' . $reference);
         }
 
@@ -331,7 +331,7 @@ final class DockerApiGenerator
         $used = [];
 
         foreach ($definition['enum'] as $index => $value) {
-            if (! is_string($value) && ! is_int($value)) {
+            if ( ! is_string($value) && ! is_int($value)) {
                 continue;
             }
 
@@ -369,7 +369,7 @@ final class DockerApiGenerator
                 $phpType .= '|null';
             }
 
-            if (! $property['required'] && 'mixed' !== $phpType) {
+            if ( ! $property['required'] && 'mixed' !== $phpType) {
                 $phpType .= '|Undefined';
             }
 
@@ -413,7 +413,7 @@ final class DockerApiGenerator
         $required = is_array($definition['required'] ?? null) ? $definition['required'] : [];
 
         foreach ($definition['allOf'] ?? [] as $part) {
-            if (! is_array($part)) {
+            if ( ! is_array($part)) {
                 continue;
             }
 
@@ -462,7 +462,7 @@ final class DockerApiGenerator
             $wireName = $parameter['name'] ?? null;
             $location = $parameter['in'] ?? null;
 
-            if (! is_string($wireName) || ! is_string($location)) {
+            if ( ! is_string($wireName) || ! is_string($location)) {
                 continue;
             }
 
@@ -495,7 +495,7 @@ final class DockerApiGenerator
                 $phpType .= '|null';
             }
 
-            if (! $required && 'mixed' !== $phpType) {
+            if ( ! $required && 'mixed' !== $phpType) {
                 $phpType .= '|Undefined';
             }
 
@@ -583,7 +583,7 @@ final class DockerApiGenerator
             $reference = $this->referenceName($schema['$ref']);
             $referenced = $this->definitions[$reference] ?? [];
 
-            if (! isset($referenced['enum']) && ! $this->isArrayLike($referenced)) {
+            if ( ! isset($referenced['enum']) && ! $this->isArrayLike($referenced)) {
                 $extends = '\\' . $this->versionNamespace . '\\Schemas\\' . $this->schemaClasses[$reference];
             }
         }
@@ -910,7 +910,7 @@ final class DockerApiGenerator
 
     private function description(mixed $description): string
     {
-        if (! is_string($description) || '' === mb_trim($description)) {
+        if ( ! is_string($description) || '' === mb_trim($description)) {
             return '';
         }
 

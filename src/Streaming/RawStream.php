@@ -14,7 +14,7 @@ final readonly class RawStream
     /** @return Generator<int, string> */
     public function chunks(int $length = 8192): Generator
     {
-        while (! $this->stream->eof()) {
+        while ( ! $this->stream->eof()) {
             $chunk = $this->stream->read($length);
 
             if ('' !== $chunk) {

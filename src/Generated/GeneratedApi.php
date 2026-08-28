@@ -36,7 +36,7 @@ abstract class GeneratedApi
 
         $response = $this->transport->request($request);
 
-        if (! $response->successful()) {
+        if ( ! $response->successful()) {
             throw $this->errors->exception($response);
         }
 
@@ -104,7 +104,7 @@ abstract class GeneratedApi
 
         $body = '';
 
-        while (! $response->stream->eof()) {
+        while ( ! $response->stream->eof()) {
             $body .= $response->stream->read();
         }
 

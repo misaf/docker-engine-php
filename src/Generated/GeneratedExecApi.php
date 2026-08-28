@@ -80,7 +80,7 @@ abstract class GeneratedExecApi extends GeneratedApi
         $this->assertSuccess($response);
         $id = $response->json()['Id'] ?? null;
 
-        if (! is_string($id) || '' === $id) {
+        if ( ! is_string($id) || '' === $id) {
             throw new InvalidResponseException('Docker did not return an exec ID.');
         }
 
@@ -111,7 +111,7 @@ abstract class GeneratedExecApi extends GeneratedApi
         $this->assertSuccess($response);
         $exitCode = $response->json()['ExitCode'] ?? null;
 
-        if (! is_int($exitCode)) {
+        if ( ! is_int($exitCode)) {
             throw new InvalidResponseException('Docker exec inspection did not contain an integer ExitCode.');
         }
 
@@ -120,7 +120,7 @@ abstract class GeneratedExecApi extends GeneratedApi
 
     private function assertSuccess(Response $response): void
     {
-        if (! $response->successful()) {
+        if ( ! $response->successful()) {
             throw $this->errors->exception($response);
         }
     }
@@ -133,7 +133,7 @@ abstract class GeneratedExecApi extends GeneratedApi
 
         $body = '';
 
-        while (! $response->stream->eof()) {
+        while ( ! $response->stream->eof()) {
             $body .= $response->stream->read();
         }
 

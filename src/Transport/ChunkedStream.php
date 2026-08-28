@@ -79,11 +79,11 @@ final class ChunkedStream implements Stream
     {
         $line = '';
 
-        while (! str_ends_with($line, "\r\n") && ! $this->inner->eof()) {
+        while ( ! str_ends_with($line, "\r\n") && ! $this->inner->eof()) {
             $line .= $this->inner->read(1);
         }
 
-        if (! str_ends_with($line, "\r\n")) {
+        if ( ! str_ends_with($line, "\r\n")) {
             throw new InvalidResponseException('Docker chunked response ended while reading a chunk size.');
         }
 

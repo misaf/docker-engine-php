@@ -27,7 +27,7 @@ final class TaskApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\TaskInspectResponse) {
+        if ( ! $result instanceof Responses\TaskInspectResponse) {
             throw new InvalidResponseException('Docker operation TaskInspect returned an unexpected response type.');
         }
 
@@ -46,7 +46,7 @@ final class TaskApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\TaskListResponse) {
+        if ( ! $result instanceof Responses\TaskListResponse) {
             throw new InvalidResponseException('Docker operation TaskList returned an unexpected response type.');
         }
 
@@ -69,7 +69,7 @@ final class TaskApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation TaskLogs returned an unexpected response type.');
         }
 

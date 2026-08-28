@@ -23,7 +23,7 @@ final class ExecApi extends GeneratedExecApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ContainerExecResponse) {
+        if ( ! $result instanceof Responses\ContainerExecResponse) {
             throw new InvalidResponseException('Docker operation ContainerExec returned an unexpected response type.');
         }
 
@@ -46,7 +46,7 @@ final class ExecApi extends GeneratedExecApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\ExecInspectResponse) {
+        if ( ! $result instanceof Responses\ExecInspectResponse) {
             throw new InvalidResponseException('Docker operation ExecInspect returned an unexpected response type.');
         }
 
@@ -82,7 +82,7 @@ final class ExecApi extends GeneratedExecApi
             upgrade: 'tcp',
         ), $request);
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation ExecStart returned an unexpected response type.');
         }
 

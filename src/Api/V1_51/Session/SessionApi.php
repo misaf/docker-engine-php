@@ -23,7 +23,7 @@ final class SessionApi extends GeneratedApi
             upgrade: 'tcp',
         ));
 
-        if (! $result instanceof StreamResponse) {
+        if ( ! $result instanceof StreamResponse) {
             throw new InvalidResponseException('Docker operation Session returned an unexpected response type.');
         }
 

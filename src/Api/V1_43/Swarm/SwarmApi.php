@@ -22,7 +22,7 @@ final class SwarmApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! is_string($result)) {
+        if ( ! is_string($result)) {
             throw new InvalidResponseException('Docker operation SwarmInit did not return a primitive response.');
         }
 
@@ -41,7 +41,7 @@ final class SwarmApi extends GeneratedApi
             upgrade: null,
         ));
 
-        if (! $result instanceof Responses\SwarmInspectResponse) {
+        if ( ! $result instanceof Responses\SwarmInspectResponse) {
             throw new InvalidResponseException('Docker operation SwarmInspect returned an unexpected response type.');
         }
 
@@ -99,7 +99,7 @@ final class SwarmApi extends GeneratedApi
             upgrade: null,
         ));
 
-        if (! $result instanceof Responses\SwarmUnlockkeyResponse) {
+        if ( ! $result instanceof Responses\SwarmUnlockkeyResponse) {
             throw new InvalidResponseException('Docker operation SwarmUnlockkey returned an unexpected response type.');
         }
 

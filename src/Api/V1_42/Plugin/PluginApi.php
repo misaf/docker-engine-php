@@ -23,7 +23,7 @@ final class PluginApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\GetPluginPrivilegesResponse) {
+        if ( ! $result instanceof Responses\GetPluginPrivilegesResponse) {
             throw new InvalidResponseException('Docker operation GetPluginPrivileges returned an unexpected response type.');
         }
 
@@ -59,7 +59,7 @@ final class PluginApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\PluginDeleteResponse) {
+        if ( ! $result instanceof Responses\PluginDeleteResponse) {
             throw new InvalidResponseException('Docker operation PluginDelete returned an unexpected response type.');
         }
 
@@ -116,7 +116,7 @@ final class PluginApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\PluginInspectResponse) {
+        if ( ! $result instanceof Responses\PluginInspectResponse) {
             throw new InvalidResponseException('Docker operation PluginInspect returned an unexpected response type.');
         }
 
@@ -135,7 +135,7 @@ final class PluginApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof Responses\PluginListResponse) {
+        if ( ! $result instanceof Responses\PluginListResponse) {
             throw new InvalidResponseException('Docker operation PluginList returned an unexpected response type.');
         }
 
@@ -154,7 +154,7 @@ final class PluginApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof ProgressStream) {
+        if ( ! $result instanceof ProgressStream) {
             throw new InvalidResponseException('Docker operation PluginPull returned an unexpected response type.');
         }
 
@@ -207,7 +207,7 @@ final class PluginApi extends GeneratedApi
             upgrade: null,
         ), $request);
 
-        if (! $result instanceof ProgressStream) {
+        if ( ! $result instanceof ProgressStream) {
             throw new InvalidResponseException('Docker operation PluginUpgrade returned an unexpected response type.');
         }
 
