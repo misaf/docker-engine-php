@@ -11,8 +11,8 @@ use Misaf\DockerEngine\Dto\System\EngineInfo;
 use Misaf\DockerEngine\Dto\System\EngineVersion;
 use Misaf\DockerEngine\Engine\EngineImplementation;
 use Misaf\DockerEngine\Tests\Support\FakeDockerTransport;
-use Misaf\DockerEngine\Transport\ResourceStream;
 use Misaf\DockerEngine\Transport\Response;
+use Misaf\DockerEngine\Transport\Socket\ResourceStream;
 use Misaf\DockerEngine\Transport\StreamResponse;
 
 it('returns stable container DTOs independent of the negotiated generated namespace', function (): void {
@@ -92,5 +92,5 @@ it('maps errors returned before a raw stream begins', function (): void {
     ));
 
     expect(fn() => (new DockerClient($transport, ApiVersion::V1_55))->raw()->stream('GET', '/missing'))
-        ->toThrow(Misaf\DockerEngine\Exceptions\NotFoundException::class, 'stream missing');
+        ->toThrow(Misaf\DockerEngine\Exceptions\Api\NotFoundException::class, 'stream missing');
 });

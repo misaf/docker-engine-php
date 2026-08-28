@@ -222,14 +222,14 @@ final class DockerApiGenerator
         $source = $this->header('Misaf\DockerEngine')
             . "use Misaf\DockerEngine\\Configuration\\ClientOptions;\n"
             . "use Misaf\DockerEngine\\Configuration\\TimeoutOptions;\n"
-            . "use Misaf\DockerEngine\\Contracts\\ContainerApi;\n"
-            . "use Misaf\DockerEngine\\Contracts\\ExecApi;\n"
-            . "use Misaf\DockerEngine\\Contracts\\ImageApi;\n"
-            . "use Misaf\DockerEngine\\Contracts\\NetworkApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\Api\\ContainerApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\Api\\ExecApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\Api\\ImageApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\Api\\NetworkApi;\n"
             . "use Misaf\DockerEngine\\Contracts\\Serializer;\n"
-            . "use Misaf\DockerEngine\\Contracts\\SystemApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\Api\\SystemApi;\n"
             . "use Misaf\DockerEngine\\Contracts\\Transport;\n"
-            . "use Misaf\DockerEngine\\Contracts\\VolumeApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\Api\\VolumeApi;\n"
             . "use Misaf\DockerEngine\\Engine\\CapabilityDetector;\n"
             . "use Misaf\DockerEngine\\Engine\\EngineCapabilities;\n"
             . "use Misaf\DockerEngine\\Raw\\RawApi;\n"
@@ -240,7 +240,7 @@ final class DockerApiGenerator
             . "use Misaf\DockerEngine\\Resources\\System;\n"
             . "use Misaf\DockerEngine\\Resources\\Volumes;\n"
             . "use Misaf\DockerEngine\\Serialization\\SymfonySerializer;\n"
-            . "use Misaf\DockerEngine\\Transport\\SymfonyTransport;\n"
+            . "use Misaf\DockerEngine\\Transport\\Symfony\\SymfonyTransport;\n"
             . "use Misaf\DockerEngine\\Transport\\TlsOptions;\n\n"
             . "/** Stable SDK entry point with explicit access to generated APIs. */\n"
             . "final class DockerClient\n{\n"
@@ -546,8 +546,8 @@ final class DockerApiGenerator
             $docType = $type['doc'];
 
             if ('body' === $location && 'string' === ($schema['type'] ?? null) && 'binary' === ($schema['format'] ?? null)) {
-                $phpType = 'string|\\Misaf\DockerEngine\\Contracts\\Stream';
-                $docType = 'string|\\Misaf\DockerEngine\\Contracts\\Stream';
+                $phpType = 'string|\\Misaf\DockerEngine\\Contracts\\Stream\\Stream';
+                $docType = 'string|\\Misaf\DockerEngine\\Contracts\\Stream\\Stream';
             }
 
             if ('path' === $location && 'id' === mb_strtolower($wireName) && isset(self::VALUE_OBJECTS[$tag])) {

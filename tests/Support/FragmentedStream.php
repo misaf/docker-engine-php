@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Tests\Support;
 
-use Misaf\DockerEngine\Contracts\CancellableStream;
-use Misaf\DockerEngine\Contracts\HalfClosableStream;
+use Misaf\DockerEngine\Contracts\Stream\CancellableStream;
+use Misaf\DockerEngine\Contracts\Stream\HalfClosableStream;
 
 final class FragmentedStream implements CancellableStream, HalfClosableStream
 {

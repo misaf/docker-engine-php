@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Resources;
 
-use Misaf\DockerEngine\Contracts\ContainerApi;
+use Misaf\DockerEngine\Contracts\Api\ContainerApi;
 use Misaf\DockerEngine\Dto\Container\ContainerInfo;
 use Misaf\DockerEngine\Dto\Container\ContainerSummary;
 use Misaf\DockerEngine\Dto\Container\CreateContainer;

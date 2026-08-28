@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Streaming;
 
 use Generator;
-use Misaf\DockerEngine\Contracts\CancellableStream;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\CancellableStream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 
 final readonly class MultiplexedStream
 {

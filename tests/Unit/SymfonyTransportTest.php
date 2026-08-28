@@ -8,7 +8,7 @@ use Misaf\DockerEngine\Configuration\TimeoutOptions;
 use Misaf\DockerEngine\Exceptions\ConnectionException;
 use Misaf\DockerEngine\Serialization\SymfonySerializer;
 use Misaf\DockerEngine\Transport\Request;
-use Misaf\DockerEngine\Transport\SymfonyTransport;
+use Misaf\DockerEngine\Transport\Symfony\SymfonyTransport;
 use Misaf\DockerEngine\Transport\TlsOptions;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;

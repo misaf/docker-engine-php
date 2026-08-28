@@ -2,15 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Transport;
+namespace Misaf\DockerEngine\Transport\Symfony;
 
 use Misaf\DockerEngine\Configuration\ClientOptions;
 use Misaf\DockerEngine\Contracts\Serializer;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Contracts\Transport;
 use Misaf\DockerEngine\Exceptions\ConnectionException;
 use Misaf\DockerEngine\Exceptions\TimeoutException;
 use Misaf\DockerEngine\Exceptions\TransportException;
+use Misaf\DockerEngine\Transport\Request;
+use Misaf\DockerEngine\Transport\Response;
+use Misaf\DockerEngine\Transport\Socket\SocketStreamTransport;
+use Misaf\DockerEngine\Transport\StreamResponse;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Contracts\HttpClient\Exception\TimeoutExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;

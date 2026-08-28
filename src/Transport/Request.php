@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Transport;
 
 use Misaf\DockerEngine\ApiVersion;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 
 final readonly class Request
 {

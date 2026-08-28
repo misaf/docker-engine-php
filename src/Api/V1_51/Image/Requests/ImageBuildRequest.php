@@ -11,11 +11,11 @@ use Misaf\DockerEngine\Serialization\Undefined;
 final readonly class ImageBuildRequest extends GeneratedRequest
 {
     /**
-     * @param string|\Misaf\DockerEngine\Contracts\Stream|Undefined $inputStream
+     * @param string|\Misaf\DockerEngine\Contracts\Stream\Stream|Undefined $inputStream
      */
     public function __construct(
         #[RequestParameter('inputStream', 'body', false)]
-        public string|\Misaf\DockerEngine\Contracts\Stream|Undefined $inputStream = Undefined::Value,
+        public string|\Misaf\DockerEngine\Contracts\Stream\Stream|Undefined $inputStream = Undefined::Value,
         #[RequestParameter('dockerfile', 'query', false)]
         public string|Undefined $dockerfile = Undefined::Value,
         #[RequestParameter('t', 'query', false)]

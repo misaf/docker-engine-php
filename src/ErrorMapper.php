@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine;
 
 use JsonException;
-use Misaf\DockerEngine\Exceptions\ApiException;
-use Misaf\DockerEngine\Exceptions\BadRequestException;
-use Misaf\DockerEngine\Exceptions\ConflictException;
-use Misaf\DockerEngine\Exceptions\ForbiddenException;
-use Misaf\DockerEngine\Exceptions\NotFoundException;
-use Misaf\DockerEngine\Exceptions\ServerException;
-use Misaf\DockerEngine\Exceptions\UnauthorizedException;
-use Misaf\DockerEngine\Exceptions\ValidationException;
+use Misaf\DockerEngine\Exceptions\Api\ApiException;
+use Misaf\DockerEngine\Exceptions\Api\BadRequestException;
+use Misaf\DockerEngine\Exceptions\Api\ConflictException;
+use Misaf\DockerEngine\Exceptions\Api\ForbiddenException;
+use Misaf\DockerEngine\Exceptions\Api\NotFoundException;
+use Misaf\DockerEngine\Exceptions\Api\ServerException;
+use Misaf\DockerEngine\Exceptions\Api\UnauthorizedException;
+use Misaf\DockerEngine\Exceptions\Api\ValidationException;
 use Misaf\DockerEngine\Transport\Response;
 
 final class ErrorMapper

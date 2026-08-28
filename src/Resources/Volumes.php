@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Resources;
 
-use Misaf\DockerEngine\Contracts\VolumeApi;
+use Misaf\DockerEngine\Contracts\Api\VolumeApi;
 use Misaf\DockerEngine\Dto\Volume\VolumeInfo;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Mapping\StableResponseMapper;

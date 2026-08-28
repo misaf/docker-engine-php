@@ -5,8 +5,8 @@ declare(strict_types=1);
 use Misaf\DockerEngine\ApiVersion;
 use Misaf\DockerEngine\DockerClient;
 use Misaf\DockerEngine\Tests\Support\FakeDockerTransport;
-use Misaf\DockerEngine\Transport\ResourceStream;
 use Misaf\DockerEngine\Transport\Response;
+use Misaf\DockerEngine\Transport\Socket\ResourceStream;
 use Misaf\DockerEngine\Transport\StreamResponse;
 use Misaf\DockerEngine\ValueObjects\ContainerId;
 

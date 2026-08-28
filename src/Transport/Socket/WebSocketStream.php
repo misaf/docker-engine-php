@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Transport;
+namespace Misaf\DockerEngine\Transport\Socket;
 
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 
 /** RFC 6455 framing used by Docker's container attach WebSocket endpoint. */

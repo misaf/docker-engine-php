@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Transport;
+namespace Misaf\DockerEngine\Transport\Socket;
 
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Exceptions\TransportException;
 
 final class ResourceStream implements Stream

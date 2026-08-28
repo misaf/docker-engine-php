@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Resources;
 
-use Misaf\DockerEngine\Contracts\SystemApi;
+use Misaf\DockerEngine\Contracts\Api\SystemApi;
 use Misaf\DockerEngine\Dto\System\EngineInfo;
 use Misaf\DockerEngine\Dto\System\EngineVersion;
 use Misaf\DockerEngine\Mapping\StableResponseMapper;

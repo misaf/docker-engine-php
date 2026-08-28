@@ -6,7 +6,7 @@ namespace Misaf\DockerEngine\Generated;
 
 use BackedEnum;
 use Misaf\DockerEngine\Contracts\Serializer;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Serialization\Undefined;
 use ReflectionAttribute;
 use ReflectionClass;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Exceptions\TimeoutException;
 use Misaf\DockerEngine\Exec\ExecSession;

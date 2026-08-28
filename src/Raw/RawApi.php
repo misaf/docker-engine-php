@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Raw;
 
 use Misaf\DockerEngine\ApiVersion;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Contracts\Transport;
 use Misaf\DockerEngine\ErrorMapper;
 use Misaf\DockerEngine\Transport\Request;

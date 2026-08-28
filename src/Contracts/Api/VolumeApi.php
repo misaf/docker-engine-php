@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Contracts;
+namespace Misaf\DockerEngine\Contracts\Api;
 
 use Misaf\DockerEngine\Dto\Volume\VolumeInfo;
 

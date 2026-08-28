@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Misaf\DockerEngine\ApiVersion;
-use Misaf\DockerEngine\Transport\ChunkedStream;
 use Misaf\DockerEngine\Transport\Request;
-use Misaf\DockerEngine\Transport\ResourceStream;
+use Misaf\DockerEngine\Transport\Socket\ChunkedStream;
+use Misaf\DockerEngine\Transport\Socket\ResourceStream;
 
 it('constructs versioned targets and preserves repeated query parameters', function (): void {
     $request = new Request('GET', '/containers/json', ApiVersion::V1_55, [

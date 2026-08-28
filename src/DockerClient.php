@@ -6,14 +6,14 @@ namespace Misaf\DockerEngine;
 
 use Misaf\DockerEngine\Configuration\ClientOptions;
 use Misaf\DockerEngine\Configuration\TimeoutOptions;
-use Misaf\DockerEngine\Contracts\ContainerApi;
-use Misaf\DockerEngine\Contracts\ExecApi;
-use Misaf\DockerEngine\Contracts\ImageApi;
-use Misaf\DockerEngine\Contracts\NetworkApi;
+use Misaf\DockerEngine\Contracts\Api\ContainerApi;
+use Misaf\DockerEngine\Contracts\Api\ExecApi;
+use Misaf\DockerEngine\Contracts\Api\ImageApi;
+use Misaf\DockerEngine\Contracts\Api\NetworkApi;
+use Misaf\DockerEngine\Contracts\Api\SystemApi;
+use Misaf\DockerEngine\Contracts\Api\VolumeApi;
 use Misaf\DockerEngine\Contracts\Serializer;
-use Misaf\DockerEngine\Contracts\SystemApi;
 use Misaf\DockerEngine\Contracts\Transport;
-use Misaf\DockerEngine\Contracts\VolumeApi;
 use Misaf\DockerEngine\Engine\CapabilityDetector;
 use Misaf\DockerEngine\Engine\EngineCapabilities;
 use Misaf\DockerEngine\Raw\RawApi;
@@ -24,7 +24,7 @@ use Misaf\DockerEngine\Resources\Networks;
 use Misaf\DockerEngine\Resources\System;
 use Misaf\DockerEngine\Resources\Volumes;
 use Misaf\DockerEngine\Serialization\SymfonySerializer;
-use Misaf\DockerEngine\Transport\SymfonyTransport;
+use Misaf\DockerEngine\Transport\Symfony\SymfonyTransport;
 use Misaf\DockerEngine\Transport\TlsOptions;
 
 /** Stable SDK entry point with explicit access to generated APIs. */

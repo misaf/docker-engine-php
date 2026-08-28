@@ -6,8 +6,8 @@ use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Streaming\DockerStreamDecoder;
 use Misaf\DockerEngine\Streaming\ProgressStream;
 use Misaf\DockerEngine\Streaming\StreamType;
-use Misaf\DockerEngine\Transport\ResourceStream;
-use Misaf\DockerEngine\Transport\WebSocketStream;
+use Misaf\DockerEngine\Transport\Socket\ResourceStream;
+use Misaf\DockerEngine\Transport\Socket\WebSocketStream;
 
 it('keeps multiplexed stdout and stderr logically separate', function (): void {
     $stream = ResourceStream::memory(dockerFrame(1, 'out') . dockerFrame(2, 'err'));

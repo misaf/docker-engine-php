@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Transport;
+namespace Misaf\DockerEngine\Transport\Symfony;
 
-use Misaf\DockerEngine\Contracts\CancellableStream;
+use Misaf\DockerEngine\Contracts\Stream\CancellableStream;
 use Misaf\DockerEngine\Exceptions\TimeoutException;
 use Misaf\DockerEngine\Exceptions\TransportException;
 use Symfony\Contracts\HttpClient\Exception\TimeoutExceptionInterface;

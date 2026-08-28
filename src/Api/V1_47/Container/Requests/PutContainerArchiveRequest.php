@@ -11,7 +11,7 @@ use Misaf\DockerEngine\Serialization\Undefined;
 final readonly class PutContainerArchiveRequest extends GeneratedRequest
 {
     /**
-     * @param string|\Misaf\DockerEngine\Contracts\Stream $inputStream
+     * @param string|\Misaf\DockerEngine\Contracts\Stream\Stream $inputStream
      */
     public function __construct(
         #[RequestParameter('id', 'path', false)]
@@ -19,7 +19,7 @@ final readonly class PutContainerArchiveRequest extends GeneratedRequest
         #[RequestParameter('path', 'query', false)]
         public string $path,
         #[RequestParameter('inputStream', 'body', false)]
-        public string|\Misaf\DockerEngine\Contracts\Stream $inputStream,
+        public string|\Misaf\DockerEngine\Contracts\Stream\Stream $inputStream,
         #[RequestParameter('noOverwriteDirNonDir', 'query', false)]
         public string|Undefined $noOverwriteDirNonDir = Undefined::Value,
         #[RequestParameter('copyUIDGID', 'query', false)]

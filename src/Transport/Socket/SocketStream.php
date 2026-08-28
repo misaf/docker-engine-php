@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Transport;
+namespace Misaf\DockerEngine\Transport\Socket;
 
-use Misaf\DockerEngine\Contracts\CancellableStream;
-use Misaf\DockerEngine\Contracts\HalfClosableStream;
+use Misaf\DockerEngine\Contracts\Stream\CancellableStream;
+use Misaf\DockerEngine\Contracts\Stream\HalfClosableStream;
 use Misaf\DockerEngine\Exceptions\TransportException;
 
 final class SocketStream implements CancellableStream, HalfClosableStream

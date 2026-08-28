@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Transport;
+namespace Misaf\DockerEngine\Transport\Socket;
 
 use JsonException;
 use Misaf\DockerEngine\Configuration\TimeoutOptions;
 use Misaf\DockerEngine\Contracts\Serializer;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Exceptions\TransportException;
+use Misaf\DockerEngine\Transport\Request;
+use Misaf\DockerEngine\Transport\StreamResponse;
+use Misaf\DockerEngine\Transport\TlsOptions;
 
 final readonly class SocketStreamTransport
 {

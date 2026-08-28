@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Exec;
 
-use Misaf\DockerEngine\Contracts\CancellableStream;
-use Misaf\DockerEngine\Contracts\HalfClosableStream;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\CancellableStream;
+use Misaf\DockerEngine\Contracts\Stream\HalfClosableStream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Streaming\MultiplexedStream;
 use Misaf\DockerEngine\Streaming\RawStream;
 use Misaf\DockerEngine\ValueObjects\ExecId;

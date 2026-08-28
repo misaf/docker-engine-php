@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Resources;
 
-use Misaf\DockerEngine\Contracts\NetworkApi;
+use Misaf\DockerEngine\Contracts\Api\NetworkApi;
 use Misaf\DockerEngine\Dto\Network\NetworkSummary;
 use Misaf\DockerEngine\Mapping\StableResponseMapper;
 use Misaf\DockerEngine\Raw\RawApi;

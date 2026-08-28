@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Resources;
 
-use Misaf\DockerEngine\Contracts\ImageApi;
+use Misaf\DockerEngine\Contracts\Api\ImageApi;
 use Misaf\DockerEngine\Dto\Image\ImageSummary;
 use Misaf\DockerEngine\Mapping\StableResponseMapper;
 use Misaf\DockerEngine\Raw\RawApi;

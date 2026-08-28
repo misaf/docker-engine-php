@@ -8,11 +8,11 @@ use Misaf\DockerEngine\Api\V1_55\Image\Requests\ImageBuildRequest;
 use Misaf\DockerEngine\Api\V1_55\System\Responses\SystemVersionResponse;
 use Misaf\DockerEngine\ApiVersion;
 use Misaf\DockerEngine\DockerClient;
-use Misaf\DockerEngine\Exceptions\NotFoundException;
+use Misaf\DockerEngine\Exceptions\Api\NotFoundException;
 use Misaf\DockerEngine\Serialization\SymfonySerializer;
 use Misaf\DockerEngine\Tests\Support\FakeDockerTransport;
-use Misaf\DockerEngine\Transport\ResourceStream;
 use Misaf\DockerEngine\Transport\Response;
+use Misaf\DockerEngine\Transport\Socket\ResourceStream;
 use Misaf\DockerEngine\Transport\StreamResponse;
 use Misaf\DockerEngine\ValueObjects\ContainerId;
 

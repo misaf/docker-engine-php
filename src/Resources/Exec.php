@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Misaf\DockerEngine\Resources;
 
-use Misaf\DockerEngine\Contracts\ExecApi;
+use Misaf\DockerEngine\Contracts\Api\ExecApi;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Exec\ExecResult;
 use Misaf\DockerEngine\Exec\ExecRunOptions;

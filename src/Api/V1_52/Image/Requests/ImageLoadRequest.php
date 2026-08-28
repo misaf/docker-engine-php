@@ -11,12 +11,12 @@ use Misaf\DockerEngine\Serialization\Undefined;
 final readonly class ImageLoadRequest extends GeneratedRequest
 {
     /**
-     * @param string|\Misaf\DockerEngine\Contracts\Stream|Undefined $imagesTarball
+     * @param string|\Misaf\DockerEngine\Contracts\Stream\Stream|Undefined $imagesTarball
      * @param list<string>|Undefined $platform
      */
     public function __construct(
         #[RequestParameter('imagesTarball', 'body', false)]
-        public string|\Misaf\DockerEngine\Contracts\Stream|Undefined $imagesTarball = Undefined::Value,
+        public string|\Misaf\DockerEngine\Contracts\Stream\Stream|Undefined $imagesTarball = Undefined::Value,
         #[RequestParameter('quiet', 'query', false)]
         public bool|Undefined $quiet = Undefined::Value,
         #[RequestParameter('platform', 'query', true)]

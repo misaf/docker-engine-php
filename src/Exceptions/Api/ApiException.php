@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Misaf\DockerEngine\Exceptions;
+namespace Misaf\DockerEngine\Exceptions\Api;
+
+use Misaf\DockerEngine\Exceptions\DockerException;
 
 class ApiException extends DockerException
 {

@@ -7,8 +7,8 @@ namespace Misaf\DockerEngine\Streaming;
 use Generator;
 use IteratorAggregate;
 use JsonException;
-use Misaf\DockerEngine\Contracts\CancellableStream;
-use Misaf\DockerEngine\Contracts\Stream;
+use Misaf\DockerEngine\Contracts\Stream\CancellableStream;
+use Misaf\DockerEngine\Contracts\Stream\Stream;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Traversable;
 
