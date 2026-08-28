@@ -1,0 +1,83 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "misaf/docker-engine-php",
+    "description": "Framework-neutral PHP SDK for Docker Engine API v1.40 through v1.55.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "docker",
+        "docker-engine",
+        "engine-api",
+        "sdk",
+        "unix-socket"
+    ],
+    "authors": [
+        {
+            "name": "Ehsan Mahmoodi",
+            "email": "misaf.1990@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "symfony/http-client": "^8.1",
+        "symfony/json-streamer": "^8.1",
+        "symfony/options-resolver": "^8.1",
+        "symfony/serializer": "^8.1",
+        "symfony/validator": "^8.1"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "laravel/pint": "^1.30",
+        "pestphp/pest": "^5.1",
+        "phpstan/phpstan": "^2.2",
+        "symfony/console": "^8.1",
+        "symfony/filesystem": "^8.1",
+        "symfony/finder": "^8.1",
+        "symfony/yaml": "^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Misaf\\DockerEngine\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Misaf\\DockerEngine\\Tests\\": "tests/",
+            "Misaf\\DockerEngine\\Tools\\": "tools/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "analyse": "@php -d memory_limit=1G vendor/bin/phpstan analyse",
+        "docker-api:coverage": "@php tools/docker-api docker-api:coverage",
+        "docker-api:determinism": "@php tools/docker-api docker-api:determinism",
+        "docker-api:generate": [
+            "@php tools/docker-api docker-api:generate --all",
+            "@composer format"
+        ],
+        "docker-api:validate": "@php tools/docker-api docker-api:validate",
+        "format": "@php vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "format-check": "@php vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes",
+        "test": "@php -d memory_limit=1G vendor/bin/pest",
+        "verify": [
+            "@composer format-check",
+            "@composer analyse",
+            "@composer test",
+            "@composer docker-api:validate",
+            "@composer docker-api:coverage",
+            "@composer docker-api:determinism"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
