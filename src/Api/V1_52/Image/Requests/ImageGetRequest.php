@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Misaf\DockerEngine\Api\V1_52\Image\Requests;
+
+use Misaf\DockerEngine\Generated\GeneratedRequest;
+use Misaf\DockerEngine\Generated\RequestParameter;
+use Misaf\DockerEngine\Serialization\Undefined;
+
+final readonly class ImageGetRequest extends GeneratedRequest
+{
+    /**
+     * @param list<string>|Undefined $platform
+     */
+    public function __construct(
+        #[RequestParameter('name', 'path', false)]
+        public string|\Misaf\DockerEngine\ValueObjects\ImageReference $name,
+        #[RequestParameter('platform', 'query', true)]
+        public array|Undefined $platform = Undefined::Value,
+    ) {}
+}
