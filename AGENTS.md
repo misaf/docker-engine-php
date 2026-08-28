@@ -1,44 +1,32 @@
-# AGENTS.md
+# Repository Guidelines
 
-PHP 8.4 library (PSR-4 `Misaf\DockerEngine\` → `src/`). A framework-neutral Docker Engine API SDK. It talks to the daemon over Unix socket / HTTP / TLS and **never** invokes the Docker CLI or shell; `symfony/process` is intentionally not a runtime dependency.
+## Project Structure & Module Organization
 
-## Commands
+Runtime code lives in `src/` under the `Misaf\DockerEngine\` PSR-4 namespace. Transport, serialization, streaming, exception, and value-object concerns have dedicated subdirectories. Tests live in `tests/Unit`, `tests/Integration`, and `tests/Support`; unit tests use `FakeDockerTransport` and do not require Docker. Development tooling and pinned Moby OpenAPI specifications live in `tools/` and `tools/specs/`.
 
-- `composer install` — install deps.
-- `composer verify` — full gate: format-check → phpstan → test → spec validate → coverage → determinism. Run this before considering work done.
-- `composer test` — Pest suite (`vendor/bin/pest`). Needs `-d memory_limit=1G` (already set in the script).
-- `composer analyse` — PHPStan level 10, **src only** (phpstan.neon excludes tests/tools).
-- `composer format` / `composer format-check` — canonical formatter is **Pint** (`vendor/bin/pint`, configured via `pint.json`, PER preset with strict types and ordered imports). `format` fixes files in place; `format-check` runs in `--test` mode (fails if any file needs changes).
-- Integration smoke test (needs a live Docker daemon):
+Do not hand-edit `src/Api/*`, `src/Generated/*`, or `src/DockerClient.php`; these are committed generated files. Regenerate them with:
 
-  ```bash
-  DOCKER_SDK_INTEGRATION=1 composer test -- --group=docker-integration
-  ```
+```bash
+php tools/docker-api docker-api:generate --all
+```
 
-  Unit tests use `tests/Support/FakeDockerTransport` and require no daemon.
+## Build, Test, and Development Commands
 
-## Code generation (high-signal)
+- `composer install` installs PHP dependencies.
+- `composer test` runs the Pest test suite with the required memory limit.
+- `composer analyse` runs PHPStan at level 10 against `src/`.
+- `composer format` fixes style with Pint; `composer format-check` checks without modifying files.
+- `composer verify` runs the complete quality gate: formatting, analysis, tests, spec validation, coverage, and generation determinism.
+- `DOCKER_SDK_INTEGRATION=1 composer test -- --group=docker-integration` runs daemon-backed smoke tests.
 
-The `src/Api/*` classes, `src/Generated/*`, and `src/DockerClient.php` are **committed, generated code** — do not hand-edit them.
+## Coding Style & Naming Conventions
 
-- Regenerate from the Moby OpenAPI specs in `tools/specs/*.yaml`:
+Target PHP 8.4 and declare strict types. Follow PER formatting, four-space indentation, alphabetically ordered imports, and the rules in `pint.json`. Use PascalCase for classes and enums, camelCase for methods and properties, and names that describe Docker concepts precisely, such as `ContainerId` or `TimeoutOptions`. Keep the SDK framework-neutral: runtime code must communicate through the `Transport` contract and must not invoke Docker CLI or shell commands.
 
-  ```bash
-  php tools/docker-api docker-api:generate --all
-  ```
+## Testing Guidelines
 
-  This also runs `composer format` automatically.
-- Validate spec coverage / regen determinism (part of `composer verify`):
+Write Pest tests alongside the matching area under `tests/Unit`; reserve `tests/Integration` for tests requiring a live daemon. Name test files after the subject, using the `*Test.php` suffix. Cover success, validation, error mapping, and absent-versus-null serialization behavior. Run `composer test` during development and `composer verify` before submitting changes.
 
-  ```bash
-  php tools/docker-api docker-api:validate
-  php tools/docker-api docker-api:coverage
-  php tools/docker-api docker-api:determinism
-  ```
-- `tools/specs` are dev inputs pinned to a specific moby commit (see `tools/specs/README.md`). Updating a spec requires refreshing `tools/specs/checksums.sha256` and reviewing the Moby changelog.
+## Commit & Pull Request Guidelines
 
-## Architecture notes
-
-- Public API depends on the `Transport` contract; `SymfonyTransport` (standalone Symfony HttpClient, no framework bundle/kernel/DI) is the default.
-- Each Engine version has version-specific request/response/schema DTOs under `src/Api/V1_40` … `V1_55`; serialization preserves absent-vs-explicit-null distinctions. Negotiation picks the newest mutually supported version (pin via `ApiVersion`).
-- Entrypoint is `src/DockerClient.php`; per-domain groups (containers, exec, raw, etc.) and the version-aware `raw()` API live there.
+Follow the repository's concise Conventional Commit style, for example `feat: add container wait support` or `chore: refresh pinned specs`. Keep commits focused. Pull requests should explain the behavior change, note generated-file or spec updates, link related issues, and report verification performed. Screenshots are generally unnecessary for this library. Never commit secrets, daemon certificates, socket paths, or machine-specific configuration.
