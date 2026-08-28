@@ -24,6 +24,8 @@ final readonly class GeneratorDeterminismChecker
 
         try {
             foreach (['first', 'second'] as $run) {
+                $this->generator->generateSupport($temporary . '/' . $run . '/Generated');
+
                 foreach ($versions as $version) {
                     $this->generator->generate($version, $this->specs->file($version), $temporary . '/' . $run . '/Api');
                 }
@@ -32,6 +34,7 @@ final readonly class GeneratorDeterminismChecker
             }
 
             if ($this->checksums($temporary . '/first/Api') !== $this->checksums($temporary . '/second/Api')
+                || $this->checksums($temporary . '/first/Generated') !== $this->checksums($temporary . '/second/Generated')
                 || hash_file('sha256', $temporary . '/first/DockerClient.php') !== hash_file('sha256', $temporary . '/second/DockerClient.php')) {
                 throw new RuntimeException('Two Docker API generations from identical specs produced different output.');
             }

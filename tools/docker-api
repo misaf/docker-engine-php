@@ -22,9 +22,10 @@ $filesystem = new Filesystem();
 $generator = new DockerApiGenerator($filesystem);
 $apiDirectory = $root . '/src/Api';
 $clientFile = $root . '/src/DockerClient.php';
+$generatedDirectory = $root . '/src/Generated';
 $application = new Application('Docker API developer tools');
 $application->addCommands([
-    new GenerateCommand($specs, $generator, $apiDirectory, $clientFile),
+    new GenerateCommand($specs, $generator, $apiDirectory, $clientFile, $generatedDirectory),
     new CoverageCommand(new ApiCoverageValidator($specs, $apiDirectory)),
     new ValidateCommand($specs),
     new DeterminismCommand(new GeneratorDeterminismChecker(

@@ -23,6 +23,7 @@ final class GenerateCommand extends Command
         private readonly DockerApiGenerator $generator,
         private readonly string $apiDirectory,
         private readonly string $clientFile,
+        private readonly string $generatedDirectory,
     ) {
         parent::__construct();
     }
@@ -51,6 +52,9 @@ final class GenerateCommand extends Command
                 $this->generator->generate($version, $this->specs->file($version), $this->apiDirectory);
                 $io->writeln('Generated Docker Engine API v' . $version);
             }
+
+            $this->generator->generateSupport($this->generatedDirectory);
+            $io->writeln('Generated shared API support classes');
 
             if (count($versions) === count($this->specs->versions())) {
                 $this->generator->generateClient($versions, $this->clientFile);

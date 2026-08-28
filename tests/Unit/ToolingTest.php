@@ -2,10 +2,28 @@
 
 declare(strict_types=1);
 
+use Misaf\DockerEngine\Generated\ConnectionUpgrade;
+use Misaf\DockerEngine\Generated\Endpoint;
+use Misaf\DockerEngine\Generated\ResponseKind;
 use Misaf\DockerEngine\Tools\Console\ValidateCommand;
 use Misaf\DockerEngine\Tools\OpenApi\OpenApiSpecRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
+
+it('represents generated endpoint behavior with closed enum types', function (): void {
+    $endpoint = new Endpoint(
+        operationId: 'ContainerAttachWebsocket',
+        method: 'GET',
+        path: '/containers/{id}/attach/ws',
+        responseClass: null,
+        responseKind: ResponseKind::Stream,
+        upgrade: ConnectionUpgrade::WebSocket,
+    );
+
+    expect($endpoint->responseKind)->toBe(ResponseKind::Stream)
+        ->and($endpoint->upgrade)->toBe(ConnectionUpgrade::WebSocket)
+        ->and((new Endpoint('SystemPing', 'GET', '/_ping', null))->responseKind)->toBe(ResponseKind::Json);
+});
 
 it('discovers all Docker specs in deterministic version order with Finder', function (): void {
     $repository = new OpenApiSpecRepository(dirname(__DIR__, 2) . '/tools/specs');

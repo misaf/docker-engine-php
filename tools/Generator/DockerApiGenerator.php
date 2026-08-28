@@ -46,6 +46,14 @@ final class DockerApiGenerator
     /** @var array<string, string> */
     private array $schemaClasses = [];
 
+    /** @var list<string> */
+    private const SUPPORT_FILES = [
+        'ConnectionUpgrade.php',
+        'Endpoint.php',
+        'GeneratedApi.php',
+        'ResponseKind.php',
+    ];
+
     /** @var array<string, string> */
     private const VALUE_OBJECTS = [
         'Container' => '\\Misaf\DockerEngine\ValueObjects\\ContainerId',
@@ -173,6 +181,21 @@ final class DockerApiGenerator
 
         $this->write($this->outputDirectory . '/ApiSet.php', $this->apiSetSource(array_keys($byTag)));
         $this->write($this->outputDirectory . '/Manifest.php', $this->manifestSource($version, $operations, array_keys($byTag)));
+    }
+
+    public function generateSupport(string $outputDirectory): void
+    {
+        $templateDirectory = dirname(__DIR__) . '/templates/Generated';
+
+        foreach (self::SUPPORT_FILES as $file) {
+            $source = file_get_contents($templateDirectory . '/' . $file);
+
+            if (false === $source) {
+                throw new RuntimeException('Unable to read generated support template ' . $file . '.');
+            }
+
+            $this->write(mb_rtrim($outputDirectory, '/') . '/' . $file, $source);
+        }
     }
 
     /** @param list<string> $versions */
@@ -654,10 +677,12 @@ final class DockerApiGenerator
         };
 
         return $this->header($namespace)
+            . "use Misaf\DockerEngine\\Generated\\ConnectionUpgrade;\n"
             . "use Misaf\DockerEngine\\Generated\\Endpoint;\n"
             . "use Misaf\DockerEngine\\Generated\\GeneratedApi;\n"
             . "use Misaf\DockerEngine\\Generated\\GeneratedExecApi;\n"
             . "use Misaf\DockerEngine\\Generated\\GeneratedImageApi;\n"
+            . "use Misaf\DockerEngine\\Generated\\ResponseKind;\n"
             . "use Misaf\DockerEngine\\Exceptions\\InvalidResponseException;\n"
             . "use Misaf\DockerEngine\\Streaming\\ProgressStream;\n"
             . "use Misaf\DockerEngine\\Transport\\StreamResponse;\n\n"
@@ -711,11 +736,20 @@ final class DockerApiGenerator
         $deprecated = true === ($operation['definition']['deprecated'] ?? false);
         $doc = $deprecated ? "    /** @deprecated Deprecated by Docker in this API version. */\n" : '';
         $upgrade = match (true) {
-            'ContainerAttachWebsocket' === $operationId            => "'websocket'",
-            in_array($operationId, self::UPGRADE_OPERATIONS, true) => "'tcp'",
+            'ContainerAttachWebsocket' === $operationId            => 'ConnectionUpgrade::WebSocket',
+            in_array($operationId, self::UPGRADE_OPERATIONS, true) => 'ConnectionUpgrade::Tcp',
             default                                                => 'null',
         };
-        $endpoint = "new Endpoint(\n            operationId: '" . $operationId . "',\n            method: '" . $operation['method'] . "',\n            path: '" . str_replace("'", "\\'", $operation['path']) . "',\n            responseClass: " . $responseClass . ",\n            responseKind: '" . $response['kind'] . "',\n            deprecated: " . ($deprecated ? 'true' : 'false') . ",\n            upgrade: " . $upgrade . ",\n        )";
+        $responseKind = match ($response['kind']) {
+            'json'       => 'ResponseKind::Json',
+            'json-array' => 'ResponseKind::JsonArray',
+            'progress'   => 'ResponseKind::Progress',
+            'raw'        => 'ResponseKind::Raw',
+            'stream'     => 'ResponseKind::Stream',
+            'void'       => 'ResponseKind::Void',
+            default      => throw new RuntimeException('Unsupported response kind ' . $response['kind'] . '.'),
+        };
+        $endpoint = "new Endpoint(\n            operationId: '" . $operationId . "',\n            method: '" . $operation['method'] . "',\n            path: '" . str_replace("'", "\\'", $operation['path']) . "',\n            responseClass: " . $responseClass . ",\n            responseKind: " . $responseKind . ",\n            deprecated: " . ($deprecated ? 'true' : 'false') . ",\n            upgrade: " . $upgrade . ",\n        )";
 
         if ('void' === $response['kind']) {
             return $doc . '    public function ' . $method . '(' . $argument . "): void\n    {\n" . $prepare . "        \$this->call(" . $endpoint . $input . ");\n    }\n";
