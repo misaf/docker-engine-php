@@ -68,6 +68,22 @@ it('maps stable system responses and derives a small engine capability extension
         ->and($client->capabilities()->supportsSwarm)->toBeFalse();
 });
 
+it('does not assume optional capabilities for an unknown engine', function (): void {
+    $transport = new FakeDockerTransport()->queue(
+        new Response(200, [], '{"ApiVersion":"1.55"}'),
+        new Response(200, [], '{}'),
+    );
+
+    $capabilities = (new DockerClient($transport, ApiVersion::V1_55))->capabilities();
+
+    expect($capabilities->implementation)->toBe(EngineImplementation::Unknown)
+        ->and($capabilities->supportsSwarm)->toBeFalse()
+        ->and($capabilities->supportsCheckpoint)->toBeFalse()
+        ->and($capabilities->supportsExecResize)->toBeFalse()
+        ->and($capabilities->supportsSession)->toBeFalse()
+        ->and($capabilities->supportsPlugins)->toBeFalse();
+});
+
 it('maps errors returned before a raw stream begins', function (): void {
     $transport = new FakeDockerTransport()->queue(new StreamResponse(
         404,

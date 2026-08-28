@@ -23,7 +23,8 @@ final readonly class CapabilityDetector
             apiVersion: $this->apiVersion,
             supportsSwarm: $docker && isset($info['Swarm']),
             supportsCheckpoint: $docker && true === ($info['ExperimentalBuild'] ?? false),
-            supportsExecResize: $this->apiVersion->isAtLeast(ApiVersion::V1_40),
+            supportsExecResize: EngineImplementation::Unknown !== $implementation
+                && $this->apiVersion->isAtLeast(ApiVersion::V1_40),
             supportsSession: $docker,
             supportsPlugins: $docker && isset($info['Plugins']),
         );
