@@ -58,7 +58,7 @@ final class GenerateCommand extends Command
 
             if (count($versions) === count($this->specs->versions())) {
                 $this->generator->generateClient($versions, $this->clientFile);
-                $io->writeln('Generated public DockerClient version wiring');
+                $io->writeln('Generated public client and versioned API wiring');
             }
         } catch (Throwable $exception) {
             $io->error($exception->getMessage());

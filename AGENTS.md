@@ -4,7 +4,7 @@
 
 Runtime code lives in `src/` under the `Misaf\DockerEngine\` PSR-4 namespace. Transport, serialization, streaming, exception, and value-object concerns have dedicated subdirectories. Tests live in `tests/Unit`, `tests/Integration`, and `tests/Support`; unit tests use `FakeDockerTransport` and do not require Docker. Development tooling and pinned Moby OpenAPI specifications live in `tools/` and `tools/specs/`.
 
-Do not hand-edit `src/Api/*`, `src/Generated/*`, or `src/DockerClient.php`; these are committed generated files. Regenerate them with:
+Do not hand-edit `src/Api/*`, `src/Generated/*`, `src/DockerClient.php`, or `src/VersionedApi.php`; these are committed generated files. Regenerate them with:
 
 ```bash
 php tools/docker-api docker-api:generate --all

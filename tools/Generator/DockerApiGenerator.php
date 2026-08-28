@@ -15,13 +15,7 @@ final class DockerApiGenerator
     public function __construct(private readonly Filesystem $filesystem = new Filesystem()) {}
 
     /** @var array<string, string> */
-    private const CLIENT_GROUPS = [
-        'containers'   => 'Container',
-        'images'       => 'Image',
-        'networks'     => 'Network',
-        'volumes'      => 'Volume',
-        'exec'         => 'Exec',
-        'system'       => 'System',
+    private const LEGACY_CLIENT_GROUPS = [
         'swarm'        => 'Swarm',
         'nodes'        => 'Node',
         'services'     => 'Service',
@@ -210,9 +204,9 @@ final class DockerApiGenerator
             $matches[] = '            ApiVersion::V' . $suffix . ' => new \\' . self::ROOT_NAMESPACE . '\\V' . $suffix . "\\ApiSet(\$transport, \$this->version, \$this->serializer, \$this->errors),";
         }
 
-        $groupMethods = [];
+        $legacyGroupMethods = [];
 
-        foreach (self::CLIENT_GROUPS as $publicName => $tag) {
+        foreach (self::LEGACY_CLIENT_GROUPS as $publicName => $tag) {
             $returnTypes = [];
 
             foreach ($versions as $version) {
@@ -220,40 +214,90 @@ final class DockerApiGenerator
             }
 
             $apiSetMethod = lcfirst($tag);
-            $groupMethods[] = '    public function ' . $publicName . '(): ' . implode("\n        |", $returnTypes)
-                . "\n    {\n        return \$this->apis->" . $apiSetMethod . "();\n    }\n";
+            $legacyGroupMethods[] = "    /** @deprecated Use versioned()->api()->" . $apiSetMethod . "(). */\n"
+                . '    public function ' . $publicName . '(): ' . implode("\n        |", $returnTypes)
+                . "\n    {\n        return \$this->versioned->api()->" . $apiSetMethod . "();\n    }\n";
         }
 
         $source = $this->header('Misaf\DockerEngine')
             . "use Misaf\DockerEngine\\Configuration\\ClientOptions;\n"
             . "use Misaf\DockerEngine\\Configuration\\TimeoutOptions;\n"
+            . "use Misaf\DockerEngine\\Contracts\\ContainerApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\ExecApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\ImageApi;\n"
+            . "use Misaf\DockerEngine\\Contracts\\NetworkApi;\n"
             . "use Misaf\DockerEngine\\Contracts\\Serializer;\n"
+            . "use Misaf\DockerEngine\\Contracts\\SystemApi;\n"
             . "use Misaf\DockerEngine\\Contracts\\Transport;\n"
+            . "use Misaf\DockerEngine\\Contracts\\VolumeApi;\n"
+            . "use Misaf\DockerEngine\\Engine\\CapabilityDetector;\n"
+            . "use Misaf\DockerEngine\\Engine\\EngineCapabilities;\n"
             . "use Misaf\DockerEngine\\Raw\\RawApi;\n"
+            . "use Misaf\DockerEngine\\Resources\\Containers;\n"
+            . "use Misaf\DockerEngine\\Resources\\Exec;\n"
+            . "use Misaf\DockerEngine\\Resources\\Images;\n"
+            . "use Misaf\DockerEngine\\Resources\\Networks;\n"
+            . "use Misaf\DockerEngine\\Resources\\System;\n"
+            . "use Misaf\DockerEngine\\Resources\\Volumes;\n"
             . "use Misaf\DockerEngine\\Serialization\\SymfonySerializer;\n"
             . "use Misaf\DockerEngine\\Transport\\SymfonyTransport;\n"
             . "use Misaf\DockerEngine\\Transport\\TlsOptions;\n\n"
-            . "/** Public, client-level version selector for the generated Engine APIs. */\n"
+            . "/** Stable SDK entry point with explicit access to generated APIs. */\n"
             . "final class DockerClient\n{\n"
-            . '    private readonly ' . implode("\n        |", $apiSetTypes) . " \$apis;\n\n"
             . "    private readonly Serializer \$serializer;\n\n"
             . "    private readonly ErrorMapper \$errors;\n\n"
             . "    private readonly ApiVersion \$version;\n\n"
+            . "    private readonly VersionedApi \$versioned;\n\n"
             . "    private ?RawApi \$raw = null;\n\n"
+            . "    private ?ContainerApi \$containers = null;\n\n"
+            . "    private ?ImageApi \$images = null;\n\n"
+            . "    private ?NetworkApi \$networks = null;\n\n"
+            . "    private ?VolumeApi \$volumes = null;\n\n"
+            . "    private ?ExecApi \$exec = null;\n\n"
+            . "    private ?SystemApi \$system = null;\n\n"
+            . "    private ?EngineCapabilities \$capabilities = null;\n\n"
             . "    public function __construct(\n        private readonly Transport \$transport,\n        ?ApiVersion \$version = null,\n        ?Serializer \$serializer = null,\n    ) {\n"
             . "        \$this->serializer = \$serializer ?? new SymfonySerializer();\n"
             . "        \$this->errors = new ErrorMapper();\n"
             . "        \$this->version = \$version ?? new VersionNegotiator(\$transport, \$this->errors)->negotiate();\n"
-            . "        \$this->apis = match (\$this->version) {\n" . implode("\n", $matches) . "\n        };\n    }\n\n"
+            . "        \$this->versioned = new VersionedApi(match (\$this->version) {\n" . implode("\n", $matches) . "\n        });\n    }\n\n"
             . "    public static function create(\n        string \$host = 'unix:///var/run/docker.sock',\n        ?ApiVersion \$version = null,\n        int \$timeoutSeconds = 60,\n        ?TlsOptions \$tls = null,\n        ?Serializer \$serializer = null,\n    ): self {\n"
             . "        return self::fromOptions(ClientOptions::resolve([\n            'host'        => \$host,\n            'api_version' => \$version,\n            'timeouts'    => new TimeoutOptions(request: \$timeoutSeconds),\n            'tls'         => \$tls,\n        ]), \$serializer);\n    }\n\n"
             . "    public static function fromOptions(ClientOptions \$options, ?Serializer \$serializer = null): self\n    {\n        \$serializer ??= new SymfonySerializer();\n        \$transport = new SymfonyTransport(\$options, \$serializer);\n\n        return new self(\$transport, \$options->apiVersion, \$serializer);\n    }\n\n"
             . "    public function version(): ApiVersion\n    {\n        return \$this->version;\n    }\n\n"
             . "    public function raw(): RawApi\n    {\n        return \$this->raw ??= new RawApi(\$this->transport, \$this->version, \$this->errors);\n    }\n\n"
-            . implode("\n", $groupMethods)
+            . "    public function versioned(): VersionedApi\n    {\n        return \$this->versioned;\n    }\n\n"
+            . "    public function containers(): ContainerApi\n    {\n        return \$this->containers ??= new Containers(\$this->raw());\n    }\n\n"
+            . "    public function images(): ImageApi\n    {\n        return \$this->images ??= new Images(\$this->raw());\n    }\n\n"
+            . "    public function networks(): NetworkApi\n    {\n        return \$this->networks ??= new Networks(\$this->raw());\n    }\n\n"
+            . "    public function volumes(): VolumeApi\n    {\n        return \$this->volumes ??= new Volumes(\$this->raw());\n    }\n\n"
+            . "    public function exec(): ExecApi\n    {\n        return \$this->exec ??= new Exec(\$this->raw());\n    }\n\n"
+            . "    public function system(): SystemApi\n    {\n        return \$this->system ??= new System(\$this->raw());\n    }\n"
+            . "\n" . implode("\n", $legacyGroupMethods)
+            . "\n    public function capabilities(): EngineCapabilities\n    {\n        return \$this->capabilities ??= new CapabilityDetector(\$this->raw(), \$this->version)->detect();\n    }\n"
             . "}\n";
 
         $this->write($path, $source);
+        $this->write(dirname($path) . '/VersionedApi.php', $this->versionedApiSource($apiSetTypes));
+    }
+
+    /** @param list<string> $apiSetTypes */
+    private function versionedApiSource(array $apiSetTypes): string
+    {
+        $union = implode("\n        |", $apiSetTypes);
+
+        return $this->header('Misaf\DockerEngine')
+            . "/**\n"
+            . " * Deliberate gateway to the exact OpenAPI-generated API selected by negotiation.\n"
+            . " *\n"
+            . " * Consumers using this layer accept version-specific request and response DTOs.\n"
+            . " */\n"
+            . "final readonly class VersionedApi\n{\n"
+            . "    public function __construct(private " . $union . " \$api) {}\n\n"
+            . "    public function api(): " . $union . "\n    {\n"
+            . "        return \$this->api;\n"
+            . "    }\n"
+            . "}\n";
     }
 
     /** @return list<array{operationId: string, tag: string, method: string, path: string, definition: array<string, mixed>, parameters: list<array<string, mixed>>}> */

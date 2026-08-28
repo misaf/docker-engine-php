@@ -62,7 +62,7 @@ final readonly class RawApi
         string|object|array|null $body = null,
         bool $versioned = true,
     ): StreamResponse {
-        return $this->transport->stream(new Request(
+        $response = $this->transport->stream(new Request(
             $method,
             $path,
             $versioned ? $this->version : null,
@@ -70,5 +70,17 @@ final readonly class RawApi
             $headers,
             $body,
         ));
+
+        if (101 === $response->statusCode || ($response->statusCode >= 200 && $response->statusCode < 300)) {
+            return $response;
+        }
+
+        $body = '';
+
+        while ( ! $response->stream->eof()) {
+            $body .= $response->stream->read();
+        }
+
+        throw $this->errors->exception(new Response($response->statusCode, $response->headers, $body));
     }
 }

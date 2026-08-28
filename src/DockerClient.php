@@ -6,40 +6,53 @@ namespace Misaf\DockerEngine;
 
 use Misaf\DockerEngine\Configuration\ClientOptions;
 use Misaf\DockerEngine\Configuration\TimeoutOptions;
+use Misaf\DockerEngine\Contracts\ContainerApi;
+use Misaf\DockerEngine\Contracts\ExecApi;
+use Misaf\DockerEngine\Contracts\ImageApi;
+use Misaf\DockerEngine\Contracts\NetworkApi;
 use Misaf\DockerEngine\Contracts\Serializer;
+use Misaf\DockerEngine\Contracts\SystemApi;
 use Misaf\DockerEngine\Contracts\Transport;
+use Misaf\DockerEngine\Contracts\VolumeApi;
+use Misaf\DockerEngine\Engine\CapabilityDetector;
+use Misaf\DockerEngine\Engine\EngineCapabilities;
 use Misaf\DockerEngine\Raw\RawApi;
+use Misaf\DockerEngine\Resources\Containers;
+use Misaf\DockerEngine\Resources\Exec;
+use Misaf\DockerEngine\Resources\Images;
+use Misaf\DockerEngine\Resources\Networks;
+use Misaf\DockerEngine\Resources\System;
+use Misaf\DockerEngine\Resources\Volumes;
 use Misaf\DockerEngine\Serialization\SymfonySerializer;
 use Misaf\DockerEngine\Transport\SymfonyTransport;
 use Misaf\DockerEngine\Transport\TlsOptions;
 
-/** Public, client-level version selector for the generated Engine APIs. */
+/** Stable SDK entry point with explicit access to generated APIs. */
 final class DockerClient
 {
-    private readonly \Misaf\DockerEngine\Api\V1_40\ApiSet
-        |\Misaf\DockerEngine\Api\V1_41\ApiSet
-        |\Misaf\DockerEngine\Api\V1_42\ApiSet
-        |\Misaf\DockerEngine\Api\V1_43\ApiSet
-        |\Misaf\DockerEngine\Api\V1_44\ApiSet
-        |\Misaf\DockerEngine\Api\V1_45\ApiSet
-        |\Misaf\DockerEngine\Api\V1_46\ApiSet
-        |\Misaf\DockerEngine\Api\V1_47\ApiSet
-        |\Misaf\DockerEngine\Api\V1_48\ApiSet
-        |\Misaf\DockerEngine\Api\V1_49\ApiSet
-        |\Misaf\DockerEngine\Api\V1_50\ApiSet
-        |\Misaf\DockerEngine\Api\V1_51\ApiSet
-        |\Misaf\DockerEngine\Api\V1_52\ApiSet
-        |\Misaf\DockerEngine\Api\V1_53\ApiSet
-        |\Misaf\DockerEngine\Api\V1_54\ApiSet
-        |Api\V1_55\ApiSet $apis;
-
     private readonly Serializer $serializer;
 
     private readonly ErrorMapper $errors;
 
     private readonly ApiVersion $version;
 
+    private readonly VersionedApi $versioned;
+
     private ?RawApi $raw = null;
+
+    private ?ContainerApi $containers = null;
+
+    private ?ImageApi $images = null;
+
+    private ?NetworkApi $networks = null;
+
+    private ?VolumeApi $volumes = null;
+
+    private ?ExecApi $exec = null;
+
+    private ?SystemApi $system = null;
+
+    private ?EngineCapabilities $capabilities = null;
 
     public function __construct(
         private readonly Transport $transport,
@@ -49,7 +62,7 @@ final class DockerClient
         $this->serializer = $serializer ?? new SymfonySerializer();
         $this->errors = new ErrorMapper();
         $this->version = $version ?? new VersionNegotiator($transport, $this->errors)->negotiate();
-        $this->apis = match ($this->version) {
+        $this->versioned = new VersionedApi(match ($this->version) {
             ApiVersion::V1_40 => new Api\V1_40\ApiSet($transport, $this->version, $this->serializer, $this->errors),
             ApiVersion::V1_41 => new Api\V1_41\ApiSet($transport, $this->version, $this->serializer, $this->errors),
             ApiVersion::V1_42 => new Api\V1_42\ApiSet($transport, $this->version, $this->serializer, $this->errors),
@@ -66,7 +79,7 @@ final class DockerClient
             ApiVersion::V1_53 => new Api\V1_53\ApiSet($transport, $this->version, $this->serializer, $this->errors),
             ApiVersion::V1_54 => new Api\V1_54\ApiSet($transport, $this->version, $this->serializer, $this->errors),
             ApiVersion::V1_55 => new Api\V1_55\ApiSet($transport, $this->version, $this->serializer, $this->errors),
-        };
+        });
     }
 
     public static function create(
@@ -102,126 +115,42 @@ final class DockerClient
         return $this->raw ??= new RawApi($this->transport, $this->version, $this->errors);
     }
 
-    public function containers(): Api\V1_40\Container\ContainerApi
-    |Api\V1_41\Container\ContainerApi
-    |Api\V1_42\Container\ContainerApi
-    |Api\V1_43\Container\ContainerApi
-    |Api\V1_44\Container\ContainerApi
-    |Api\V1_45\Container\ContainerApi
-    |Api\V1_46\Container\ContainerApi
-    |Api\V1_47\Container\ContainerApi
-    |Api\V1_48\Container\ContainerApi
-    |Api\V1_49\Container\ContainerApi
-    |Api\V1_50\Container\ContainerApi
-    |Api\V1_51\Container\ContainerApi
-    |Api\V1_52\Container\ContainerApi
-    |Api\V1_53\Container\ContainerApi
-    |Api\V1_54\Container\ContainerApi
-    |Api\V1_55\Container\ContainerApi
+    public function versioned(): VersionedApi
     {
-        return $this->apis->container();
+        return $this->versioned;
     }
 
-    public function images(): Api\V1_40\Image\ImageApi
-    |Api\V1_41\Image\ImageApi
-    |Api\V1_42\Image\ImageApi
-    |Api\V1_43\Image\ImageApi
-    |Api\V1_44\Image\ImageApi
-    |Api\V1_45\Image\ImageApi
-    |Api\V1_46\Image\ImageApi
-    |Api\V1_47\Image\ImageApi
-    |Api\V1_48\Image\ImageApi
-    |Api\V1_49\Image\ImageApi
-    |Api\V1_50\Image\ImageApi
-    |Api\V1_51\Image\ImageApi
-    |Api\V1_52\Image\ImageApi
-    |Api\V1_53\Image\ImageApi
-    |Api\V1_54\Image\ImageApi
-    |Api\V1_55\Image\ImageApi
+    public function containers(): ContainerApi
     {
-        return $this->apis->image();
+        return $this->containers ??= new Containers($this->raw());
     }
 
-    public function networks(): Api\V1_40\Network\NetworkApi
-    |Api\V1_41\Network\NetworkApi
-    |Api\V1_42\Network\NetworkApi
-    |Api\V1_43\Network\NetworkApi
-    |Api\V1_44\Network\NetworkApi
-    |Api\V1_45\Network\NetworkApi
-    |Api\V1_46\Network\NetworkApi
-    |Api\V1_47\Network\NetworkApi
-    |Api\V1_48\Network\NetworkApi
-    |Api\V1_49\Network\NetworkApi
-    |Api\V1_50\Network\NetworkApi
-    |Api\V1_51\Network\NetworkApi
-    |Api\V1_52\Network\NetworkApi
-    |Api\V1_53\Network\NetworkApi
-    |Api\V1_54\Network\NetworkApi
-    |Api\V1_55\Network\NetworkApi
+    public function images(): ImageApi
     {
-        return $this->apis->network();
+        return $this->images ??= new Images($this->raw());
     }
 
-    public function volumes(): Api\V1_40\Volume\VolumeApi
-    |Api\V1_41\Volume\VolumeApi
-    |Api\V1_42\Volume\VolumeApi
-    |Api\V1_43\Volume\VolumeApi
-    |Api\V1_44\Volume\VolumeApi
-    |Api\V1_45\Volume\VolumeApi
-    |Api\V1_46\Volume\VolumeApi
-    |Api\V1_47\Volume\VolumeApi
-    |Api\V1_48\Volume\VolumeApi
-    |Api\V1_49\Volume\VolumeApi
-    |Api\V1_50\Volume\VolumeApi
-    |Api\V1_51\Volume\VolumeApi
-    |Api\V1_52\Volume\VolumeApi
-    |Api\V1_53\Volume\VolumeApi
-    |Api\V1_54\Volume\VolumeApi
-    |Api\V1_55\Volume\VolumeApi
+    public function networks(): NetworkApi
     {
-        return $this->apis->volume();
+        return $this->networks ??= new Networks($this->raw());
     }
 
-    public function exec(): Api\V1_40\Exec\ExecApi
-    |Api\V1_41\Exec\ExecApi
-    |Api\V1_42\Exec\ExecApi
-    |Api\V1_43\Exec\ExecApi
-    |Api\V1_44\Exec\ExecApi
-    |Api\V1_45\Exec\ExecApi
-    |Api\V1_46\Exec\ExecApi
-    |Api\V1_47\Exec\ExecApi
-    |Api\V1_48\Exec\ExecApi
-    |Api\V1_49\Exec\ExecApi
-    |Api\V1_50\Exec\ExecApi
-    |Api\V1_51\Exec\ExecApi
-    |Api\V1_52\Exec\ExecApi
-    |Api\V1_53\Exec\ExecApi
-    |Api\V1_54\Exec\ExecApi
-    |Api\V1_55\Exec\ExecApi
+    public function volumes(): VolumeApi
     {
-        return $this->apis->exec();
+        return $this->volumes ??= new Volumes($this->raw());
     }
 
-    public function system(): Api\V1_40\System\SystemApi
-    |Api\V1_41\System\SystemApi
-    |Api\V1_42\System\SystemApi
-    |Api\V1_43\System\SystemApi
-    |Api\V1_44\System\SystemApi
-    |Api\V1_45\System\SystemApi
-    |Api\V1_46\System\SystemApi
-    |Api\V1_47\System\SystemApi
-    |Api\V1_48\System\SystemApi
-    |Api\V1_49\System\SystemApi
-    |Api\V1_50\System\SystemApi
-    |Api\V1_51\System\SystemApi
-    |Api\V1_52\System\SystemApi
-    |Api\V1_53\System\SystemApi
-    |Api\V1_54\System\SystemApi
-    |Api\V1_55\System\SystemApi
+    public function exec(): ExecApi
     {
-        return $this->apis->system();
+        return $this->exec ??= new Exec($this->raw());
     }
 
+    public function system(): SystemApi
+    {
+        return $this->system ??= new System($this->raw());
+    }
+
+    /** @deprecated Use versioned()->api()->swarm(). */
     public function swarm(): Api\V1_40\Swarm\SwarmApi
     |Api\V1_41\Swarm\SwarmApi
     |Api\V1_42\Swarm\SwarmApi
@@ -239,9 +168,10 @@ final class DockerClient
     |Api\V1_54\Swarm\SwarmApi
     |Api\V1_55\Swarm\SwarmApi
     {
-        return $this->apis->swarm();
+        return $this->versioned->api()->swarm();
     }
 
+    /** @deprecated Use versioned()->api()->node(). */
     public function nodes(): Api\V1_40\Node\NodeApi
     |Api\V1_41\Node\NodeApi
     |Api\V1_42\Node\NodeApi
@@ -259,9 +189,10 @@ final class DockerClient
     |Api\V1_54\Node\NodeApi
     |Api\V1_55\Node\NodeApi
     {
-        return $this->apis->node();
+        return $this->versioned->api()->node();
     }
 
+    /** @deprecated Use versioned()->api()->service(). */
     public function services(): Api\V1_40\Service\ServiceApi
     |Api\V1_41\Service\ServiceApi
     |Api\V1_42\Service\ServiceApi
@@ -279,9 +210,10 @@ final class DockerClient
     |Api\V1_54\Service\ServiceApi
     |Api\V1_55\Service\ServiceApi
     {
-        return $this->apis->service();
+        return $this->versioned->api()->service();
     }
 
+    /** @deprecated Use versioned()->api()->task(). */
     public function tasks(): Api\V1_40\Task\TaskApi
     |Api\V1_41\Task\TaskApi
     |Api\V1_42\Task\TaskApi
@@ -299,9 +231,10 @@ final class DockerClient
     |Api\V1_54\Task\TaskApi
     |Api\V1_55\Task\TaskApi
     {
-        return $this->apis->task();
+        return $this->versioned->api()->task();
     }
 
+    /** @deprecated Use versioned()->api()->secret(). */
     public function secrets(): Api\V1_40\Secret\SecretApi
     |Api\V1_41\Secret\SecretApi
     |Api\V1_42\Secret\SecretApi
@@ -319,9 +252,10 @@ final class DockerClient
     |Api\V1_54\Secret\SecretApi
     |Api\V1_55\Secret\SecretApi
     {
-        return $this->apis->secret();
+        return $this->versioned->api()->secret();
     }
 
+    /** @deprecated Use versioned()->api()->config(). */
     public function configs(): Api\V1_40\Config\ConfigApi
     |Api\V1_41\Config\ConfigApi
     |Api\V1_42\Config\ConfigApi
@@ -339,9 +273,10 @@ final class DockerClient
     |Api\V1_54\Config\ConfigApi
     |Api\V1_55\Config\ConfigApi
     {
-        return $this->apis->config();
+        return $this->versioned->api()->config();
     }
 
+    /** @deprecated Use versioned()->api()->plugin(). */
     public function plugins(): Api\V1_40\Plugin\PluginApi
     |Api\V1_41\Plugin\PluginApi
     |Api\V1_42\Plugin\PluginApi
@@ -359,9 +294,10 @@ final class DockerClient
     |Api\V1_54\Plugin\PluginApi
     |Api\V1_55\Plugin\PluginApi
     {
-        return $this->apis->plugin();
+        return $this->versioned->api()->plugin();
     }
 
+    /** @deprecated Use versioned()->api()->distribution(). */
     public function distribution(): Api\V1_40\Distribution\DistributionApi
     |Api\V1_41\Distribution\DistributionApi
     |Api\V1_42\Distribution\DistributionApi
@@ -379,9 +315,10 @@ final class DockerClient
     |Api\V1_54\Distribution\DistributionApi
     |Api\V1_55\Distribution\DistributionApi
     {
-        return $this->apis->distribution();
+        return $this->versioned->api()->distribution();
     }
 
+    /** @deprecated Use versioned()->api()->session(). */
     public function session(): Api\V1_40\Session\SessionApi
     |Api\V1_41\Session\SessionApi
     |Api\V1_42\Session\SessionApi
@@ -399,6 +336,11 @@ final class DockerClient
     |Api\V1_54\Session\SessionApi
     |Api\V1_55\Session\SessionApi
     {
-        return $this->apis->session();
+        return $this->versioned->api()->session();
+    }
+
+    public function capabilities(): EngineCapabilities
+    {
+        return $this->capabilities ??= new CapabilityDetector($this->raw(), $this->version)->detect();
     }
 }
