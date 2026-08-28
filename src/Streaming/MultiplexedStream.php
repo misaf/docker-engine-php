@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Misaf\DockerEngine\Streaming;
 
 use Generator;
+use Misaf\DockerEngine\Contracts\CancellableStream;
 use Misaf\DockerEngine\Contracts\Stream;
 
 final readonly class MultiplexedStream
@@ -17,7 +18,11 @@ final readonly class MultiplexedStream
     /** @return Generator<int, StreamFrame> */
     public function frames(): Generator
     {
-        yield from $this->decoder->decode($this->stream);
+        try {
+            yield from $this->decoder->decode($this->stream);
+        } finally {
+            $this->stream->close();
+        }
     }
 
     public function consume(?callable $onStdout = null, ?callable $onStderr = null): void
@@ -33,5 +38,21 @@ final readonly class MultiplexedStream
                 }
             }
         }
+    }
+
+    public function close(): void
+    {
+        $this->stream->close();
+    }
+
+    public function cancel(): void
+    {
+        if ($this->stream instanceof CancellableStream) {
+            $this->stream->cancel();
+
+            return;
+        }
+
+        $this->stream->close();
     }
 }

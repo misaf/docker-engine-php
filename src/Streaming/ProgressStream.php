@@ -7,6 +7,7 @@ namespace Misaf\DockerEngine\Streaming;
 use Generator;
 use IteratorAggregate;
 use JsonException;
+use Misaf\DockerEngine\Contracts\CancellableStream;
 use Misaf\DockerEngine\Contracts\Stream;
 use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Traversable;
@@ -27,22 +28,42 @@ final readonly class ProgressStream implements IteratorAggregate
     {
         $buffer = '';
 
-        while ( ! $this->stream->eof()) {
-            $buffer .= $this->stream->read();
+        try {
+            while ( ! $this->stream->eof()) {
+                $buffer .= $this->stream->read();
 
-            while (false !== ($newline = mb_strpos($buffer, "\n"))) {
-                $line = mb_trim(mb_substr($buffer, 0, $newline));
-                $buffer = mb_substr($buffer, $newline + 1);
+                while (false !== ($newline = mb_strpos($buffer, "\n"))) {
+                    $line = mb_trim(mb_substr($buffer, 0, $newline));
+                    $buffer = mb_substr($buffer, $newline + 1);
 
-                if ('' !== $line) {
-                    yield $this->event($line);
+                    if ('' !== $line) {
+                        yield $this->event($line);
+                    }
                 }
             }
+
+            if ('' !== mb_trim($buffer)) {
+                yield $this->event(mb_trim($buffer));
+            }
+        } finally {
+            $this->stream->close();
+        }
+    }
+
+    public function close(): void
+    {
+        $this->stream->close();
+    }
+
+    public function cancel(): void
+    {
+        if ($this->stream instanceof CancellableStream) {
+            $this->stream->cancel();
+
+            return;
         }
 
-        if ('' !== mb_trim($buffer)) {
-            yield $this->event(mb_trim($buffer));
-        }
+        $this->stream->close();
     }
 
     private function event(string $line): ProgressEvent

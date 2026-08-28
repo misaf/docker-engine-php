@@ -7,6 +7,9 @@ use Misaf\DockerEngine\Exceptions\InvalidResponseException;
 use Misaf\DockerEngine\Exceptions\TimeoutException;
 use Misaf\DockerEngine\Exec\ExecSession;
 use Misaf\DockerEngine\Streaming\DockerStreamDecoder;
+use Misaf\DockerEngine\Streaming\MultiplexedStream;
+use Misaf\DockerEngine\Streaming\ProgressStream;
+use Misaf\DockerEngine\Streaming\RawStream;
 use Misaf\DockerEngine\Streaming\StreamType;
 use Misaf\DockerEngine\Tests\Support\FragmentedStream;
 use Misaf\DockerEngine\ValueObjects\ExecId;
@@ -106,4 +109,49 @@ it('supports stdin forwarding, half-close, cancellation, and TTY raw streams', f
         ->and($raw->writeClosed)->toBeTrue()
         ->and($raw->cancelled)->toBeTrue()
         ->and($stdout)->toBe("terminal\r\n");
+});
+
+it('closes stream wrappers after early iteration or consumer exceptions', function (): void {
+    $raw = new FragmentedStream(['first', 'second']);
+
+    foreach ((new RawStream($raw))->chunks() as $chunk) {
+        expect($chunk)->toBe('first');
+
+        break;
+    }
+
+    $multiplexed = new FragmentedStream([dockerFrame(1, 'first'), dockerFrame(1, 'second')]);
+
+    try {
+        (new MultiplexedStream($multiplexed))->consume(static function (): never {
+            throw new RuntimeException('consumer stopped');
+        });
+    } catch (RuntimeException) {
+    }
+
+    $progress = new FragmentedStream(["{\"status\":\"first\"}\n", "{\"status\":\"second\"}\n"]);
+
+    foreach (new ProgressStream($progress) as $event) {
+        expect($event->status)->toBe('first');
+
+        break;
+    }
+
+    expect($raw->cancelled)->toBeTrue()
+        ->and($multiplexed->cancelled)->toBeTrue()
+        ->and($progress->cancelled)->toBeTrue();
+});
+
+it('allows stream wrappers to be cancelled explicitly', function (): void {
+    $multiplexed = new FragmentedStream([]);
+    $raw = new FragmentedStream([]);
+    $progress = new FragmentedStream([]);
+
+    (new MultiplexedStream($multiplexed))->cancel();
+    (new RawStream($raw))->cancel();
+    (new ProgressStream($progress))->cancel();
+
+    expect($multiplexed->cancelled)->toBeTrue()
+        ->and($raw->cancelled)->toBeTrue()
+        ->and($progress->cancelled)->toBeTrue();
 });
