@@ -8,10 +8,13 @@ use Misaf\DockerEngine\Configuration\ClientOptions;
 use Misaf\DockerEngine\Configuration\TimeoutOptions;
 use Misaf\DockerEngine\Contracts\Serializer;
 use Misaf\DockerEngine\Contracts\Transport;
+use Misaf\DockerEngine\DependencyInjection\Configuration;
 use Misaf\DockerEngine\Raw\RawApi;
 use Misaf\DockerEngine\Serialization\SymfonySerializer;
 use Misaf\DockerEngine\Transport\SymfonyTransport;
 use Misaf\DockerEngine\Transport\TlsOptions;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Dotenv\Dotenv;
 
 /** Public, client-level version selector for the generated Engine APIs. */
 final class DockerClient
@@ -76,6 +79,19 @@ final class DockerClient
         ?TlsOptions $tls = null,
         ?Serializer $serializer = null,
     ): self {
+        self::bootDotenv(null);
+
+        $host = 'unix:///var/run/docker.sock' === $host
+            ? (self::env('DOCKER_HOST') ?? $host)
+            : $host;
+        $version = $version ?? (null !== ($apiVersion = self::env('DOCKER_API_VERSION'))
+            ? ApiVersion::parse($apiVersion)
+            : null);
+        $timeoutSeconds = 60 === $timeoutSeconds
+            ? (int) (self::env('DOCKER_TIMEOUT_REQUEST') ?? $timeoutSeconds)
+            : $timeoutSeconds;
+        $tls = $tls ?? self::tlsFromEnv();
+
         return self::fromOptions(ClientOptions::resolve([
             'host'        => $host,
             'api_version' => $version,
@@ -90,6 +106,131 @@ final class DockerClient
         $transport = new SymfonyTransport($options, $serializer);
 
         return new self($transport, $options->apiVersion, $serializer);
+    }
+
+    /**
+     * Build a client from an already-validated configuration array.
+     *
+     * The array shape matches the symfony/config tree (see
+     * DependencyInjection\Configuration): host, api_version, timeouts, tls, headers.
+     * Use DockerClient::processConfig() to validate a raw array (e.g. loaded from
+     * YAML) before passing it here, or rely on DockerEngineExtension to do so.
+     */
+    /**
+     * @param array<string, mixed> $config
+     */
+    public static function fromArray(array $config, ?Serializer $serializer = null): self
+    {
+        self::bootDotenv(null);
+
+        $resolved = ClientOptions::resolve([
+            'host'        => $config['host'] ?? 'unix:///var/run/docker.sock',
+            'api_version' => $config['api_version'] ?? null,
+            'timeouts'    => $config['timeouts'] ?? [],
+            'tls'         => $config['tls'] ?? null,
+            'headers'     => $config['headers'] ?? [],
+        ]);
+
+        return self::fromOptions($resolved, $serializer);
+    }
+
+    /**
+     * Validate and normalize a raw config array through the symfony/config tree,
+     * applying defaults. Useful for non-bundle consumers loading config from YAML.
+     *
+     * The returned array has the shape: host (string), api_version (?string),
+     * timeouts (connect/request floats, stream_idle ?float), tls (?array), headers (array).
+     *
+     * @param array<string, mixed> $config
+     * @return array<int|string, mixed>
+     */
+    public static function processConfig(array $config): array
+    {
+        $processor = new Processor();
+
+        return $processor->processConfiguration(new Configuration(), [$config]);
+    }
+
+    /**
+     * Build a client from environment variables, optionally loading a .env file.
+     *
+     * Recognised variables: DOCKER_HOST, DOCKER_API_VERSION, DOCKER_TIMEOUT_CONNECT,
+     * DOCKER_TIMEOUT_REQUEST, DOCKER_TLS_CA, DOCKER_TLS_CERT, DOCKER_TLS_KEY,
+     * DOCKER_TLS_KEY_PASSWORD, DOCKER_TLS_VERIFY_PEER, DOCKER_TLS_VERIFY_HOST.
+     *
+     * The .env file is loaded via symfony/dotenv only when it exists; already-set
+     * process environment variables always take precedence.
+     */
+    public static function fromEnv(?string $path = null, ?Serializer $serializer = null): self
+    {
+        self::bootDotenv($path);
+
+        $tls = self::tlsFromEnv();
+
+        return self::fromOptions(ClientOptions::resolve([
+            'host'        => self::env('DOCKER_HOST') ?? 'unix:///var/run/docker.sock',
+            'api_version' => self::env('DOCKER_API_VERSION'),
+            'timeouts'    => [
+                'connect' => (float) (self::env('DOCKER_TIMEOUT_CONNECT') ?? 5.0),
+                'request' => (float) (self::env('DOCKER_TIMEOUT_REQUEST') ?? 60.0),
+            ],
+            'tls'         => $tls,
+        ]), $serializer);
+    }
+
+    private static function bootDotenv(?string $path): void
+    {
+        /** @var array<string, true> $loaded */
+        static $loaded = [];
+
+        $file = $path ?? (getcwd() ?: '') . '/.env';
+
+        $key = realpath($file) ?: $file;
+
+        if (isset($loaded[$key])) {
+            return;
+        }
+
+        if (is_file($file)) {
+            (new Dotenv())->loadEnv($file, 'APP_ENV', 'dev');
+        }
+
+        $loaded[$key] = true;
+    }
+
+    /** @return ?TlsOptions */
+    private static function tlsFromEnv(): ?TlsOptions
+    {
+        $ca = self::env('DOCKER_TLS_CA');
+        $cert = self::env('DOCKER_TLS_CERT');
+        $key = self::env('DOCKER_TLS_KEY');
+
+        if (null === $ca && null === $cert && null === $key) {
+            return null;
+        }
+
+        return new TlsOptions(
+            ca: $ca,
+            certificate: $cert,
+            privateKey: $key,
+            privateKeyPassword: self::env('DOCKER_TLS_KEY_PASSWORD'),
+            verifyPeer: self::envFlag('DOCKER_TLS_VERIFY_PEER', true),
+            verifyHost: self::envFlag('DOCKER_TLS_VERIFY_HOST', true),
+        );
+    }
+
+    private static function env(string $name): ?string
+    {
+        $value = $_SERVER[$name] ?? $_ENV[$name] ?? getenv($name);
+
+        return is_string($value) && '' !== $value ? $value : null;
+    }
+
+    private static function envFlag(string $name, bool $default): bool
+    {
+        $value = self::env($name);
+
+        return null === $value ? $default : filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
 
     public function version(): ApiVersion
