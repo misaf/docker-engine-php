@@ -30,7 +30,7 @@ final readonly class ClientOptions
     /**
      * Validate an array-shaped boundary once, then expose only typed options.
      *
-     * @param array<string, mixed> $options
+     * @param array<array-key, mixed> $options
      */
     public static function resolve(array $options = []): self
     {
