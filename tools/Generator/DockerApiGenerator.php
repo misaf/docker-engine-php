@@ -40,12 +40,12 @@ final class DockerApiGenerator
     /** @var array<string, string> */
     private array $schemaClasses = [];
 
-    /** @var list<string> */
+    /** @var array<string, string> */
     private const SUPPORT_FILES = [
-        'ConnectionUpgrade.php',
-        'Endpoint.php',
-        'GeneratedApi.php',
-        'ResponseKind.php',
+        'ConnectionUpgrade.php' => 'ConnectionUpgrade.tpl.php',
+        'Endpoint.php'          => 'Endpoint.tpl.php',
+        'GeneratedApi.php'      => 'GeneratedApi.tpl.php',
+        'ResponseKind.php'      => 'ResponseKind.tpl.php',
     ];
 
     /** @var array<string, string> */
@@ -181,14 +181,14 @@ final class DockerApiGenerator
     {
         $templateDirectory = dirname(__DIR__) . '/templates/Generated';
 
-        foreach (self::SUPPORT_FILES as $file) {
-            $source = file_get_contents($templateDirectory . '/' . $file);
+        foreach (self::SUPPORT_FILES as $outputFile => $templateFile) {
+            $source = file_get_contents($templateDirectory . '/' . $templateFile);
 
             if (false === $source) {
-                throw new RuntimeException('Unable to read generated support template ' . $file . '.');
+                throw new RuntimeException('Unable to read generated support template ' . $templateFile . '.');
             }
 
-            $this->write(mb_rtrim($outputDirectory, '/') . '/' . $file, $source);
+            $this->write(mb_rtrim($outputDirectory, '/') . '/' . $outputFile, $source);
         }
     }
 

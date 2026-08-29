@@ -39,6 +39,9 @@
         }
     },
     "autoload-dev": {
+        "exclude-from-classmap": [
+            "/tools/templates/"
+        ],
         "psr-4": {
             "Misaf\\DockerEngine\\Tests\\": "tests/",
             "Misaf\\DockerEngine\\Tools\\": "tools/"
